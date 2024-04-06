@@ -33,7 +33,7 @@ export const examples = {
     // regionTagList: [],
     // regionClsList: ["hotdog"],
     regionTagList: ["has-bun"],
-    regionClsList: ["hotdog", "not-hotdog"],
+    regionClsList: [{name: "hotdog"}, {name: "not-hotdog"}],
     regionColorList: ["#4d0c89", "#55d68d"],
     preselectCls: "not-hotdog",
     enabledTools: ["create-point", "create-box", "create-polygon", "create-line", "create-expanding-line"],
@@ -56,7 +56,7 @@ export const examples = {
     // regionTagList: [],
     // regionClsList: ["hotdog"],
     regionTagList: ["has-bun"],
-    regionClsList: ["Line-Crossing", "Area-Occupancy"],
+    regionClsList: [{name: "name.lightbarrier", translation: "Light Barrier"}, {name: "name.parkingarea", translation: "Parking Area"}],
     preselectCls: "not-hotdog",
     // showTags: true,
     images: [
@@ -71,7 +71,7 @@ export const examples = {
   "Simple Segmentation": () => ({
     taskDescription:
       "Annotate each image according to this _markdown_ specification.",
-    regionClsList: ["car", "truck"],
+    regionClsList: [{name: "car"}, {name: "truck"}],
     enabledTools: ["select", "create-polygon"],
     images: [
       {

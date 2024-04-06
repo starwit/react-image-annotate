@@ -415,7 +415,10 @@ ImageCanvas.propTypes = {
   showHighlightBox: PropTypes.bool,
   showPointDistances: PropTypes.bool,
   pointDistancePrecision: PropTypes.number,
-  regionClsList: PropTypes.arrayOf(PropTypes.string),
+  regionClsList: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    translation: PropTypes.string,
+  })),
   regionTagList: PropTypes.arrayOf(PropTypes.string),
   allowedArea: PropTypes.shape({x: PropTypes.number, y: PropTypes.number, w: PropTypes.number, h: PropTypes.number}),
   RegionEditLabel: PropTypes.element,

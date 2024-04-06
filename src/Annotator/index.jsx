@@ -174,7 +174,10 @@ Annotator.propTypes = {
   enabledTools: PropTypes.arrayOf(PropTypes.string),
   selectedTool: PropTypes.string,
   regionTagList: PropTypes.arrayOf(PropTypes.string),
-  regionClsList: PropTypes.arrayOf(PropTypes.string),
+  regionClsList: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    translation: PropTypes.string,
+})),
   regionColorList: PropTypes.arrayOf(PropTypes.string),
   preselectCls: PropTypes.string,
   imageTagList: PropTypes.arrayOf(PropTypes.string),

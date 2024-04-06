@@ -22,7 +22,7 @@ import ReactImageAnnotate from "react-image-annotate";
 const App = () => (
   <ReactImageAnnotate
     labelImages
-    regionClsList={["Alpha", "Beta", "Charlie", "Delta"]}
+    regionClsList={[{name:"alpha", tranlation: "Alpha"}, {name:"beta", translation: "Beta"}, {name: "charlie", translation: "Charlie"}, {name:"delta", translation:"Delta"}]}
     regionTagList={["tag1", "tag2", "tag3"]}
     images={[
       {
@@ -54,9 +54,9 @@ All of the following properties can be defined on the Annotator...
 | `taskDescription`        | \*`string`                                       | Markdown description for what to do in the image.                                       |               |
 | `allowedArea`            | `{ x: number, y: number, w: number, h: number }` | Area that is available for annotation.                                                  | Entire image. |
 | `regionTagList`          | `Array<string>`                                  | Allowed "tags" (mutually inclusive classifications) for regions.                        |               |
-| `regionClsList`          | `Array<string>`                                  | Allowed "classes" (mutually exclusive classifications) for regions.           
+| `regionClsList`          | `Array{name: <string>, translation: <string>`    | Allowed "classes" (mutually exclusive classifications) for regions.           
 | `regionColorList`        | `Array<string>`                                  | Custom color list for regions. Default colors are used if not specified.
-| `preselectCls`          | `string`                                          |  Put in the class that should be preselected when creating a new Box/Polygon etc.           |               |
+| `preselectCls`          | `string`                                          |  Put in the class that should be preselected when creating a new Box/Polygon etc.       |               |
 | `imageTagList`           | `Array<string>`                                  | Allowed tags for entire image.                                                          |               |
 | `imageClsList`           | `Array<string>`                                  | Allowed classes for entire image.                                                       |               |
 | `enabledTools`           | `Array<string>`                                  | Tools allowed to be used. e.g. "select", "create-point", "create-box", "create-polygon" | Everything.   |

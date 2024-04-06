@@ -559,8 +559,8 @@
   ],
   "labelImages": false,
   "regionClsList": [
-    "car",
-    "truck"
+    { "name": "car"},
+    { "name": "truck"}
   ],
   "regionTagList": [],
   "imageClsList": [],
