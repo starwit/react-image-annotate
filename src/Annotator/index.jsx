@@ -179,7 +179,10 @@ Annotator.propTypes = {
     translation: PropTypes.string,
 })),
   regionColorList: PropTypes.arrayOf(PropTypes.string),
-  preselectCls: PropTypes.string,
+  preselectCls: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    translation: PropTypes.string
+}),
   imageTagList: PropTypes.arrayOf(PropTypes.string),
   imageClsList: PropTypes.arrayOf(PropTypes.string),
   keyframes: PropTypes.object,

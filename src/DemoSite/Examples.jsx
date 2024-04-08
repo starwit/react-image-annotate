@@ -4,11 +4,11 @@ import {setIn} from 'seamless-immutable';
 const userReducer = (state, action) => {
   switch (action.type) {
     case "SELECT_CLASSIFICATION": {
-      switch (action.cls) {
-        case "Line-Crossing": {
+      switch (action.cls?.name) {
+        case "name.lightbarrier": {
           return setIn(state, ["selectedTool"], "create-line");
         }
-        case "Area-Occupancy": {
+        case "name.parkingarea": {
           return setIn(state, ["selectedTool"], "create-polygon");
         }
       }
@@ -57,7 +57,7 @@ export const examples = {
     // regionClsList: ["hotdog"],
     regionTagList: ["has-bun"],
     regionClsList: [{name: "name.lightbarrier", translation: "Light Barrier"}, {name: "name.parkingarea", translation: "Parking Area"}],
-    preselectCls: "not-hotdog",
+    preselectCls: {name: "name.lightbarrier", translation: "Light Barrier"},
     // showTags: true,
     images: [
       {
