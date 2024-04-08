@@ -123,10 +123,10 @@ export const RegionLabel = ({
                     })
                   }}
                   value={
-                    region.cls ? {label: region.cls, value: region.cls} : null
+                    region.cls ? {label: region.cls.translation, value: region.cls} : null
                   }
                   options={asMutable(
-                    allowedClasses.map((c) => ({value: c, label: c}))
+                    allowedClasses.map((c) => ({value: c, label: c.translation}))
                   )}
                 />
               </div>
