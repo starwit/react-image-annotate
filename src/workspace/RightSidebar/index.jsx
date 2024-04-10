@@ -24,7 +24,6 @@ const Expander = styled(ButtonBase)(({ theme }) => ({
   width: 23,
   height: 40,
   display: "flex",
-  overflow: "hidden",
   alignItems: "center",
   justifyContent: "flex-start",
   borderTopLeftRadius: "50%",
@@ -38,7 +37,7 @@ const Expander = styled(ButtonBase)(({ theme }) => ({
   position: "absolute",
   top: "calc(50% - 20px)",
   left: -23,
-  zIndex: 9999,
+  zIndex: 20,
   transition: "opacity 500ms, left 500ms, width 500ms",
   "&.expanded": {
     left: -20,
