@@ -9,7 +9,10 @@ const translationEnEN = {
   "move.polypoint": "Move Polygon Point",
   "create.polygon": "Create Polygon",
   "create.line": "Create Line",
-  "region.label": "Designation"
+  "region.label": "Designation",
+  "region.type.polygon": "Draw Polygon",
+  "region.type.line": "Draw Line",
+  "region.type.block": "Draw Blocking Area"
 };
 
 export default translationEnEN;

@@ -56,7 +56,7 @@ export const examples = {
     // regionTagList: [],
     // regionClsList: ["hotdog"],
     regionTagList: ["has-bun"],
-    regionClsList: ["Line-Crossing", "Area-Occupancy"],
+    regionClsList: ["Line-Crossing", "Area-Occupancy", "fgfg"],
     preselectCls: "not-hotdog",
     // showTags: true,
     images: [

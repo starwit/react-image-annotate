@@ -9,7 +9,10 @@ const translationDeDE = {
   "move.polypoint": "Polygon Punkt verschoben",
   "create.polygon": "Polygon erstellen",
   "create.line": "Lichtschranke erstellen",
-  "region.label": "Bezeichnung"
+  "region.label": "Bezeichnung",
+  "region.type.polygon": "Polygon erstellen",
+  "region.type.line": "Linie erstellen",
+  "region.type.block": "Sperrfläche erstellen"
 };
 
 export default translationDeDE;

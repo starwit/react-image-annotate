@@ -96,7 +96,7 @@ export const RegionLabel = ({
                   textShadow: "0px 0px 5px rgba(0,0,0,0.4)",
                 }}
               >
-                {region.type}
+                {region.type === 'polygon' ? t('region.type.polygon') : region.type === 'line' ? t('region.type.line') : region.type === 'block' ? t('region.type.block') : region.type}
               </div>
               <div style={{flexGrow: 1}} />
               <IconButton

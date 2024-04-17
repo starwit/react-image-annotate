@@ -1,4 +1,4 @@
-// @flow
+ // @flow
 
 import React, {memo} from "react"
 import SidebarBoxContainer from "../SidebarBoxContainer"
