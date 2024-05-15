@@ -174,7 +174,8 @@ const MemoRow = memo(
     prevProps.index === nextProps.index &&
     prevProps.cls === nextProps.cls &&
     prevProps.name === nextProps.name &&
-    prevProps.color === nextProps.color
+    prevProps.color === nextProps.color &&
+    prevProps.points === nextProps.points
 )
 
 const emptyArr = []
@@ -225,6 +226,7 @@ const mapUsedRegionProperties = (r) => [
   r.minimized,
   r.name,
   r.highlighted,
+  r.points
 ]
 
 export default memo(RegionSelectorSidebarBox, (prevProps, nextProps) =>
