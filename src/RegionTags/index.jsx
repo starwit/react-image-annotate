@@ -77,7 +77,7 @@ export const RegionTags = ({
         )
       }
       if(region.minimized){
-        return (<div></div>)
+        return (null)
       }
       return (
         <div
