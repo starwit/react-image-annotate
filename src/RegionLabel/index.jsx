@@ -12,7 +12,7 @@ import TextField from "@mui/material/TextField"
 import Select from "react-select"
 import CreatableSelect from "react-select/creatable"
 import {useTranslation} from "react-i18next"
-
+import Alert from '@mui/material/Alert';
 import {asMutable} from "seamless-immutable"
 
 const theme = createTheme()
@@ -45,7 +45,7 @@ export const RegionLabel = ({
 
     if (nameInput) return nameInput.focus()
   }
-
+  
   return (
     <ThemeProvider theme={theme}>
       <StyledPaper
@@ -174,6 +174,7 @@ export const RegionLabel = ({
                 label={t("region.label")}
                 ref={nameInputRef}
                 onClick={onNameInputClick}
+                style={styles.nameField}
                 value={region.name || ""}
                 onChange={(event) =>
                   onChange({...(region), name: event.target.value})
@@ -184,8 +185,12 @@ export const RegionLabel = ({
             ) 
             }
             {onClose && (
-              <div style={{marginTop: 4, display: "flex"}}>
-                <div style={{flexGrow: 1}} />
+              <div style={styles.div}>
+                  <div>
+                    {region?.falseInput ? 
+                      <Alert style={styles.alert} severity="error">{t("region.no.name")}</Alert> : <></>
+                    }
+                  </div>
                 <Button
                   onClick={() => onClose(region)}
                   size="small"
@@ -195,7 +200,7 @@ export const RegionLabel = ({
                   <CheckIcon />
                 </Button>
               </div>
-            )}
+            )}         
           </div>
         )}
       </StyledPaper>

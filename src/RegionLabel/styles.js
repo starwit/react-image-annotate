@@ -49,7 +49,16 @@ export default {
     fontSize: 13,
   },
   nameField: {
-    fontWeight: 400,
-    fontSize: 13,
+    marginTop: 6
+  }, 
+  alert: {
+    padding: "0px", 
+    paddingLeft: 3,
+    paddingRight: 3
+  }, 
+  div:{
+    marginTop: 4, 
+    display: "flex", 
+    justifyContent: "space-between"
   }
 }

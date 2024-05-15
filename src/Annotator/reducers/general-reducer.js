@@ -788,9 +788,16 @@ export default (state, action) => {
     case "CLOSE_REGION_EDITOR": {
       const regionIndex = getRegionIndex(action.region)
       if (regionIndex === null) return state
+      if (action.region?.name == null) {
+        return setIn(state, [...pathToActiveImage, "regions", regionIndex], {
+          ...(activeImage.regions || [])[regionIndex],
+          falseInput: true,
+        })
+      }
       return setIn(state, [...pathToActiveImage, "regions", regionIndex], {
         ...(activeImage.regions || [])[regionIndex],
         editingLabels: false,
+        falseInput: false,
       })
     }
     case "DELETE_REGION": {
