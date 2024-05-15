@@ -17,6 +17,8 @@ import styles from "./styles"
 import classnames from "classnames"
 import isEqual from "lodash/isEqual"
 import {useTranslation} from "react-i18next";
+import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 
 const theme = createTheme()
 
@@ -43,7 +45,7 @@ const RowLayout = ({
   highlighted,
   order,
   name,
-  area,
+  minimize,
   tags,
   trash,
   lock,
@@ -63,7 +65,7 @@ const RowLayout = ({
           {name}
         </Grid>
         <Grid item xs={2}>
-          <div style={{textAlign: "right", paddingRight: 6}}>{area}</div>
+          <div style={{textAlign: "right", paddingRight: 6}}>{minimize}</div>
         </Grid>
         <Grid item xs={1}>
           {trash}
@@ -117,7 +119,19 @@ const Row = ({
       onClick={() => onSelectRegion(r)}
       order={`#${index + 1}`}
       name={<Chip text={name || cls || ""} color={color || "#ddd"} />}
-      area=""
+      minimize={
+        r.minimized ? (
+          <OpenInFullIcon
+            onClick={() => onChangeRegion({...r, minimized: false})}
+            className="icon2"
+          />
+        ) : (
+          <CloseFullscreenIcon
+            onClick={() => onChangeRegion({...r, minimized: true})}
+            className="icon2"
+          />
+        )
+      }
       trash={<TrashIcon onClick={() => onDeleteRegion(r)} className="icon2" />}
       lock={
         r.locked ? (
@@ -155,6 +169,7 @@ const MemoRow = memo(
     prevProps.highlighted === nextProps.highlighted &&
     prevProps.visible === nextProps.visible &&
     prevProps.locked === nextProps.locked &&
+    prevProps.minimized === nextProps.minimized &&
     prevProps.id === nextProps.id &&
     prevProps.index === nextProps.index &&
     prevProps.cls === nextProps.cls &&
@@ -207,6 +222,7 @@ const mapUsedRegionProperties = (r) => [
   r.color,
   r.locked,
   r.visible,
+  r.minimized,
   r.name,
   r.highlighted,
 ]

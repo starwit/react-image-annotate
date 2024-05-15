@@ -35,7 +35,7 @@ export const RegionLabel = ({
   const onCommentInputClick = (_) => {
     // The TextField wraps the <input> tag with two divs
     const commentInput = commentInputRef.current.children[0].children[0]
-
+      
     if (commentInput) return commentInput.focus()
   }
   // I have no idea why the click is not working, so I copied the solution from above...
