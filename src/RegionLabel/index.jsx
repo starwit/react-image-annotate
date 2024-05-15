@@ -178,8 +178,10 @@ export const RegionLabel = ({
                 onChange={(event) =>
                   onChange({...(region), name: event.target.value})
                 }
+                autoFocus
+                focused={true}
               />
-            )
+            ) 
             }
             {onClose && (
               <div style={{marginTop: 4, display: "flex"}}>
