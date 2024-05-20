@@ -10,9 +10,9 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "@mui/icons-material": "^5.15.17",
-    "@mui/material": "^5.15.17",
+    "@fortawesome/react-fontawesome": "^0.2.1",
+    "@mui/icons-material": "^5.15.18",
+    "@mui/material": "^5.15.18",
     "cash-dom": "^8.1.5",
     "classnames": "^2.3.2",
     "color-alpha": "^2.0.0",
@@ -55,7 +55,7 @@
     "prettier": "^3.2.5",
     "react-github-btn": "^1.1.1",
     "vite": "^5.2.11",
-    "vite-plugin-node-polyfills": "^0.21.0",
+    "vite-plugin-node-polyfills": "^0.22.0",
     "vite-raw-plugin": "^1.0.2"
   },
   "prettier": {
