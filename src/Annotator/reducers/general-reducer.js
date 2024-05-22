@@ -788,7 +788,7 @@ export default (state, action) => {
     case "CLOSE_REGION_EDITOR": {
       const regionIndex = getRegionIndex(action.region)
       if (regionIndex === null) return state
-      if (action.region?.name == null) {
+      if (action.region?.name == null || action.region?.name == "") {
         return setIn(state, [...pathToActiveImage, "regions", regionIndex], {
           ...(activeImage.regions || [])[regionIndex],
           falseInput: true,
