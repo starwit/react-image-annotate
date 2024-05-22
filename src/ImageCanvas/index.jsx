@@ -13,7 +13,7 @@ import PointDistances from "../PointDistances"
 import RegionTags from "../RegionTags"
 import RegionLabel from "../RegionLabel"
 import RegionSelectAndTransformBoxes from "../RegionSelectAndTransformBoxes"
-import VideoOrImageCanvasBackground from "../VideoOrImageCanvasBackground"
+import ImageCanvasBackground from "../ImageCanvasBackground/index.jsx"
 import useEventCallback from "use-event-callback"
 import RegionShapes from "../RegionShapes"
 import useWasdMode from "./use-wasd-mode"
@@ -34,8 +34,6 @@ const getDefaultMat = (allowedArea = null, {iw, ih} = {}) => {
 export const ImageCanvas = ({
   regions,
   imageSrc,
-  videoSrc,
-  videoTime,
   realSize,
   showTags,
   onMouseMove = (p) => null,
@@ -52,8 +50,7 @@ export const ImageCanvas = ({
   showPointDistances,
   allowedArea,
   RegionEditLabel = null,
-  videoPlaying = false,
-  onImageOrVideoLoaded,
+  onImageLoadedDispatch,
   onChangeRegion,
   onBeginRegionEdit,
   onCloseRegionEdit,
@@ -65,8 +62,6 @@ export const ImageCanvas = ({
   onSelectRegion,
   onBeginMovePoint,
   onDeleteRegion,
-  onChangeVideoTime,
-  onChangeVideoPlaying,
   onRegionClassAdded,
   zoomOnAllowedArea = true,
   modifyingAllowedArea = false,
@@ -109,10 +104,10 @@ export const ImageCanvas = ({
   const [imageDimensions, changeImageDimensions] = useState()
   const imageLoaded = Boolean(imageDimensions && imageDimensions.naturalWidth)
 
-  const onVideoOrImageLoaded = useEventCallback(
+  const onImageLoaded = useEventCallback(
     ({naturalWidth, naturalHeight, duration}) => {
       const dims = {naturalWidth, naturalHeight, duration}
-      if (onImageOrVideoLoaded) onImageOrVideoLoaded(dims)
+      if (onImageLoadedDispatch) onImageLoadedDispatch(dims)
       changeImageDimensions(dims)
       // Redundant update to fix rerendering issues
       setTimeout(() => changeImageDimensions(dims), 10)
@@ -374,17 +369,12 @@ export const ImageCanvas = ({
               regions={regions}
               fullSegmentationMode={false}
             />
-            <VideoOrImageCanvasBackground
-              videoPlaying={videoPlaying}
+            <ImageCanvasBackground
               imagePosition={imagePosition}
               mouseEvents={mouseEvents}
-              onLoad={onVideoOrImageLoaded}
-              videoTime={videoTime}
-              videoSrc={videoSrc}
+              onLoad={onImageLoaded}
               imageSrc={imageSrc}
               useCrossOrigin={false}
-              onChangeVideoTime={onChangeVideoTime}
-              onChangeVideoPlaying={onChangeVideoPlaying}
             />
           </>
         </PreventScrollToParents>
@@ -399,8 +389,6 @@ export const ImageCanvas = ({
 ImageCanvas.propTypes = {
   regions: PropTypes.arrayOf(PropTypes.object).isRequired,
   imageSrc: PropTypes.string,
-  videoSrc: PropTypes.string,
-  videoTime: PropTypes.number,
   keypointDefinitions: PropTypes.elementType,
   onMouseMove: PropTypes.func,
   onMouseDown: PropTypes.func,
@@ -419,7 +407,6 @@ ImageCanvas.propTypes = {
   regionTagList: PropTypes.arrayOf(PropTypes.string),
   allowedArea: PropTypes.shape({x: PropTypes.number, y: PropTypes.number, w: PropTypes.number, h: PropTypes.number}),
   RegionEditLabel: PropTypes.element,
-  videoPlaying: PropTypes.bool,
   zoomOnAllowedArea: PropTypes.bool,
   modifyingAllowedArea: PropTypes.bool,
   enabledRegionProps: PropTypes.arrayOf(PropTypes.string),
@@ -433,10 +420,8 @@ ImageCanvas.propTypes = {
   onAddPolygonPoint: PropTypes.func.isRequired,
   onSelectRegion: PropTypes.func.isRequired,
   onBeginMovePoint: PropTypes.func.isRequired,
-  onImageOrVideoLoaded: PropTypes.func.isRequired,
-  onChangeVideoTime: PropTypes.func.isRequired,
+  onImageLoadedDispatch: PropTypes.func.isRequired,
   onRegionClassAdded: PropTypes.func.isRequired,
-  onChangeVideoPlaying: PropTypes.func,
 }
 
 export default ImageCanvas
