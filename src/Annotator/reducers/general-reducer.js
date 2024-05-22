@@ -881,6 +881,7 @@ export default (state, action) => {
       const {mode} = state
       if (mode) {
         switch (mode.mode) {
+          case "DRAW_LINE":
           case "DRAW_EXPANDING_LINE":
           case "SET_EXPANDING_LINE_WIDTH":
           case "DRAW_POLYGON": {
