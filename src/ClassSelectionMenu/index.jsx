@@ -59,7 +59,7 @@ export const ClassSelectionMenu = ({
   regionClsList,
   regionColorList,
   onSelectCls,
-}) => {
+}) => {styled
 
   useEffect(() => {
     if (selectedCls == null) {
