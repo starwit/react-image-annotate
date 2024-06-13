@@ -25,11 +25,11 @@ export default (state, action) => {
     action.y = clamp(action.y, aa.y, aa.y + aa.h)
   }
 
-  if (action.type === "ON_CLS_ADDED" && action.cls && action.cls !== "") {
+  if (action.type === "ON_CLS_ADDED" && action.cls && action.cls.name !== "") {
     const oldRegionClsList = state.regionClsList
     const newState = {
       ...state,
-      regionClsList: oldRegionClsList.concat(action.cls),
+      regionClsList: oldRegionClsList.concat(action.cls.name),
     }
     return newState
   }
