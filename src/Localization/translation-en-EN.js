@@ -3,7 +3,6 @@ const translationEnEN = {
   "menu.history": "History",
   "menu.regions": "Regions",
   "error.image": "Could not load image",
-  "error.imagevideo": "Missing required prop",
   "no.history": "No History Yet",
   "desc.class": "Class",
   "move.polypoint": "Move Polygon Point",

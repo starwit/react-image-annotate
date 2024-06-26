@@ -8,10 +8,8 @@ const theme = createTheme()
 export const SidebarBoxContainer = ({
   icon,
   title,
-  subTitle,
   children,
   noScroll,
-  expandedByDefault = false,
 }) => {
   return (
     <ThemeProvider theme={theme}>

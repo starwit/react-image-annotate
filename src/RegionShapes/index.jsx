@@ -198,7 +198,6 @@ export const WrappedRegionList = memo(
 )
 
 export const RegionShapes = ({
-  mat,
   imagePosition,
   regions = [],
   keypointDefinitions,

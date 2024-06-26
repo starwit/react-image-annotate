@@ -11,7 +11,6 @@ import getFromLocalStorage from "../utils/get-from-local-storage"
 import historyHandler from "./reducers/history-handler.js"
 import imageReducer from "./reducers/image-reducer.js"
 import useEventCallback from "use-event-callback"
-import videoReducer from "./reducers/video-reducer.js"
 import PropTypes from "prop-types"
 import noopReducer from "./reducers/noop-reducer.js"
 import {useTranslation} from "react-i18next"
@@ -32,12 +31,8 @@ export const Annotator = ({
   preselectCls = null,
   imageTagList = [],
   imageClsList = [],
-  keyframes = {},
   taskDescription = "",
   RegionEditLabel,
-  videoSrc,
-  videoTime = 0,
-  videoName,
   onExit,
   onNextImage,
   onPrevImage,
@@ -57,17 +52,15 @@ export const Annotator = ({
     if (selectedImage === -1) selectedImage = undefined
   }
   const {t} = useTranslation();
-  const annotationType = images ? "image" : "video"
   const [state, dispatchToReducer] = useReducer(
     historyHandler(
       combineReducers(
-        annotationType === "image" ? imageReducer : videoReducer,
+        imageReducer,
         generalReducer,
         userReducer === undefined ? noopReducer : userReducer
       )
     ),
     makeImmutable({
-      annotationType,
       showTags,
       allowedArea,
       showPointDistances,
@@ -83,22 +76,15 @@ export const Annotator = ({
       regionTagList,
       imageClsList,
       imageTagList,
-      currentVideoTime: videoTime,
       enabledTools,
       history: [],
-      videoName,
       keypointDefinitions,
       enabledRegionProps,
-      ...(annotationType === "image"
-        ? {
+      ...({
           selectedImage,
           images,
           selectedImageFrameTime:
             images && images.length > 0 ? images[0].frameTime : undefined
-        }
-        : {
-          videoSrc,
-          keyframes
         })
     })
   )
@@ -132,8 +118,8 @@ export const Annotator = ({
     })
   }, [selectedImage, state.images])
  
-  if (!images && !videoSrc)
-    return t("error.imagevideo")
+  if (!images)
+    return t("error.image")
 
   return (
     <SettingsProvider>
@@ -177,12 +163,8 @@ Annotator.propTypes = {
   preselectCls: PropTypes.string,
   imageTagList: PropTypes.arrayOf(PropTypes.string),
   imageClsList: PropTypes.arrayOf(PropTypes.string),
-  keyframes: PropTypes.object,
   taskDescription: PropTypes.string,
   RegionEditLabel: PropTypes.node,
-  videoSrc: PropTypes.string,
-  videoTime: PropTypes.number,
-  videoName: PropTypes.string,
   onExit: PropTypes.func.isRequired,
   onNextImage: PropTypes.func,
   onPrevImage: PropTypes.func,
