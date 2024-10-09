@@ -10,6 +10,9 @@ on:
         required: true
         default: "prerelease"
 
+permissions:
+  contents: write
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
