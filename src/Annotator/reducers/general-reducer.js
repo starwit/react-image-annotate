@@ -806,7 +806,7 @@ export default (state, action) => {
           highlighted: false,
           editingLabels: false,
         })),
-        s => {s.regionIndex = {
+        s => {s[regionIndex] = {
           ...(activeImage.regions || [])[regionIndex],
           highlighted: true,
           editingLabels: true,
