@@ -1,15 +1,15 @@
 import {createTheme} from "@mui/material/styles"
-import {setIn} from 'seamless-immutable';
+import {produce} from "immer"
 
 const userReducer = (state, action) => {
   switch (action.type) {
     case "SELECT_CLASSIFICATION": {
       switch (action.cls) {
         case "Line-Crossing": {
-          return setIn(state, ["selectedTool"], "create-line");
+          return produce(state, s => {s.selectedTool = "create-line"})
         }
         case "Area-Occupancy": {
-          return setIn(state, ["selectedTool"], "create-polygon");
+          return produce(state, s => {s.selectedTool = "create-polygon"})
         }
       }
     }
