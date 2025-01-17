@@ -1,6 +1,5 @@
 // @flow
 import {moveRegion} from "../../ImageCanvas/region-tools.js"
-import {setIn} from "seamless-immutable"
 import {produce} from "immer"
 import isEqual from "lodash/isEqual"
 import get from "lodash.get"
