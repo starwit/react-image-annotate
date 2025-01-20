@@ -1,7 +1,7 @@
 // @flow
 
 import React, {useEffect, useReducer} from "react"
-import makeImmutable, {without} from "seamless-immutable"
+import {produce} from "immer"
 
 import MainLayout from "../MainLayout"
 import SettingsProvider from "../SettingsProvider"
@@ -60,7 +60,7 @@ export const Annotator = ({
         userReducer === undefined ? noopReducer : userReducer
       )
     ),
-    makeImmutable({
+    produce({
       showTags,
       allowedArea,
       showPointDistances,
@@ -86,17 +86,17 @@ export const Annotator = ({
           selectedImageFrameTime:
             images && images.length > 0 ? images[0].frameTime : undefined
         })
-    })
+    }, _ => _)
   )
 
   const dispatch = useEventCallback((action) => {
     if (action.type === "HEADER_BUTTON_CLICKED") {
       if (["Exit", "Done", "Save", "Complete"].includes(action.buttonName)) {
-        return onExit(without(state, "history"))
+        return onExit(produce(state, s => {delete s.history}))
       } else if (action.buttonName === "Next" && onNextImage) {
-        return onNextImage(without(state, "history"))
+        return onNextImage(produce(state, s => {delete s.history}))
       } else if (action.buttonName === "Prev" && onPrevImage) {
-        return onPrevImage(without(state, "history"))
+        return onPrevImage(produce(state, s => {delete s.history}))
       }
     }
     dispatchToReducer(action)

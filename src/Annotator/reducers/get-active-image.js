@@ -1,5 +1,3 @@
-import { getIn } from "seamless-immutable"
-
 export default (state) => {
   let currentImageIndex = null,
     pathToActiveImage,
@@ -10,7 +8,7 @@ export default (state) => {
       activeImage = null
     } else {
       pathToActiveImage = ["images", currentImageIndex]
-      activeImage = getIn(state, pathToActiveImage)
+      activeImage = state.images[currentImageIndex]
     }
   return { currentImageIndex, pathToActiveImage, activeImage }
 }

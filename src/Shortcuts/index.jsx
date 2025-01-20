@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import SidebarBoxContainer from "../SidebarBoxContainer"
-import { setIn } from "seamless-immutable"
+import {produce} from "immer"
 import ShortcutField from "./ShortcutField"
 
 const defaultShortcuts = {
@@ -81,7 +81,7 @@ export default ({ onShortcutActionDispatched }) => {
   }, [])
 
   const onChangeShortcut = (actionId, keyName) => {
-    setShortcuts(setIn(shortcuts, [actionId, "key"], keyName))
+    setShortcuts(produce(shortcuts, s => { s.actionId["key"] = keyName}))
   }
 
   useEffect(() => {

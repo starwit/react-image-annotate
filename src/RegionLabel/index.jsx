@@ -13,7 +13,6 @@ import Select from "react-select"
 import CreatableSelect from "react-select/creatable"
 import {useTranslation} from "react-i18next"
 import Alert from '@mui/material/Alert';
-import {asMutable} from "seamless-immutable"
 
 const theme = createTheme()
 const StyledPaper = styled(Paper)(({ theme }) => styles.regionInfo)
@@ -125,9 +124,9 @@ export const RegionLabel = ({
                   value={
                     region.cls ? {label: region.cls, value: region.cls} : null
                   }
-                  options={asMutable(
+                  options={
                     allowedClasses.map((c) => ({value: c, label: c}))
-                  )}
+                  }
                 />
               </div>
             )}
@@ -146,9 +145,9 @@ export const RegionLabel = ({
                     value: c,
                   }))}
                   isMulti
-                  options={asMutable(
+                  options={
                     allowedTags.map((c) => ({value: c, label: c}))
-                  )}
+                  }
                 />
               </div>
             )}

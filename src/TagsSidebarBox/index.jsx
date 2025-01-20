@@ -4,7 +4,6 @@ import StyleIcon from "@mui/icons-material/Style"
 import { grey } from "@mui/material/colors"
 import Select from "react-select"
 import useEventCallback from "use-event-callback"
-import { asMutable } from "seamless-immutable"
 import PropTypes from "prop-types"
 
 const emptyArr = []
@@ -28,11 +27,11 @@ export const TagsSidebarBox = ({
     [cls]
   )
   const memoImgClsList = useMemo(
-    () => asMutable(imageClsList.map((c) => ({ value: c, label: c }))),
+    () => imageClsList.map((c) => ({ value: c, label: c })),
     [imageClsList]
   )
   const memoImgTagList = useMemo(
-    () => asMutable(imageTagList.map((c) => ({ value: c, label: c }))),
+    () => imageTagList.map((c) => ({ value: c, label: c })),
     [imageTagList]
   )
   const memoCurrentTags = useMemo(
