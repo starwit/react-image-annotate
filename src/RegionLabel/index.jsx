@@ -63,7 +63,7 @@ export const RegionLabel = ({
                   className="circle"
                   style={{backgroundColor: region.color}}
                 />
-                {region.cls}
+                <Typography variant="caption" fontWeight="bold">{region.cls}</Typography>
               </div>
             )}
             {region.tags && (
@@ -78,14 +78,7 @@ export const RegionLabel = ({
             {region.name && (
               <div className="tags">
                 <div key="name">
-                  {region.name}
-                </div>
-              </div>
-            )}
-            {region.direction && (
-              <div className="tags">
-                <div key="direction">
-                  {region.direction}
+                  <Typography variant="caption" fontWeight="bold">{region.name}{region.direction && <Typography variant="caption"> ({region.direction})</Typography>}</Typography>
                 </div>
               </div>
             )}
