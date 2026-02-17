@@ -13,6 +13,9 @@ import Select from "react-select"
 import CreatableSelect from "react-select/creatable"
 import {useTranslation} from "react-i18next"
 import Alert from '@mui/material/Alert';
+import { Box, FormControlLabel, InputLabel, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest} from '@mui/icons-material';
+import { FormControl, FormLabel } from "@mui/material"
 
 const theme = createTheme()
 const StyledPaper = styled(Paper)(({ theme }) => styles.regionInfo)
@@ -29,6 +32,7 @@ export const RegionLabel = ({
   onRegionClassAdded,
   enabledProperties
 }) => {
+  console.log(region)
   const commentInputRef = useRef(null)
   const {t} = useTranslation();
   const onCommentInputClick = (_) => {
@@ -73,14 +77,21 @@ export const RegionLabel = ({
             )}
             {region.name && (
               <div className="tags">
-                <div key="name" className="tag">
+                <div key="name">
                   {region.name}
+                </div>
+              </div>
+            )}
+            {region.direction && (
+              <div className="tags">
+                <div key="direction">
+                  {region.direction}
                 </div>
               </div>
             )}
           </div>
         ) : (
-          <div style={{width: 200}}>
+          <div>
             <div style={{display: "flex", flexDirection: "row"}}>
               <div
                 style={{
@@ -181,8 +192,27 @@ export const RegionLabel = ({
                 autoFocus
                 focused={true}
               />
-            ) 
-            }
+            )}
+            {enabledProperties.includes("line-direction") && region.type === "line" && (
+              <Box>
+                <Typography variant="caption">{t("region.label.direction")}: {region.direction ? region.direction : t("direction.none")}</Typography>
+                <ToggleButtonGroup
+                  size="small"
+                  value={region.direction || ""}
+                  exclusive
+                  onChange={(_, newDirection) => onChange({...(region), direction: newDirection})}
+                >
+                  <ToggleButton value={t("direction.north")}><North /></ToggleButton>
+                  <ToggleButton value={t("direction.northeast")}><NorthEast /></ToggleButton>
+                  <ToggleButton value={t("direction.east")}><East /></ToggleButton>
+                  <ToggleButton value={t("direction.southeast")}><SouthEast /></ToggleButton>
+                  <ToggleButton value={t("direction.south")}><South /></ToggleButton>
+                  <ToggleButton value={t("direction.southwest")}><SouthWest /></ToggleButton>
+                  <ToggleButton value={t("direction.west")}><West /></ToggleButton>
+                  <ToggleButton value={t("direction.northwest")}><NorthWest /></ToggleButton>
+                </ToggleButtonGroup>
+              </Box>
+            )}
             {onClose && (
               <div style={styles.div}>
                   <div>

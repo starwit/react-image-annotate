@@ -66,7 +66,7 @@ export const examples = {
       }
     ],
     userReducer: userReducer,
-    enabledRegionProps: ["name"]
+    enabledRegionProps: ["name", "line-direction"]
   }),
   "Simple Segmentation": () => ({
     taskDescription:
