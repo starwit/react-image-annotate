@@ -49,7 +49,8 @@ export default {
     fontSize: 13,
   },
   nameField: {
-    marginTop: 6
+    marginTop: 6,
+    width: "100%"
   }, 
   alert: {
     padding: "0px", 

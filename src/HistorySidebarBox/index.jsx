@@ -46,7 +46,7 @@ export const HistorySidebarBox = ({
             <EmptyTextDiv>{t("no.history")}</EmptyTextDiv>
           )}
           {history.map(({ name, time }, i) => (
-            <ListItem button dense key={i} >
+            <ListItem dense key={i} >
               <ListItemText
                 style={listItemTextStyle}
                 primary={name}

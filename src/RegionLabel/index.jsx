@@ -13,6 +13,9 @@ import Select from "react-select"
 import CreatableSelect from "react-select/creatable"
 import {useTranslation} from "react-i18next"
 import Alert from '@mui/material/Alert';
+import { Box, FormControlLabel, InputLabel, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest} from '@mui/icons-material';
+import { FormControl, FormLabel } from "@mui/material"
 
 const theme = createTheme()
 const StyledPaper = styled(Paper)(({ theme }) => styles.regionInfo)
@@ -59,7 +62,7 @@ export const RegionLabel = ({
                   className="circle"
                   style={{backgroundColor: region.color}}
                 />
-                {region.cls}
+                <Typography variant="caption" fontWeight="bold">{region.cls}</Typography>
               </div>
             )}
             {region.tags && (
@@ -73,14 +76,16 @@ export const RegionLabel = ({
             )}
             {region.name && (
               <div className="tags">
-                <div key="name" className="tag">
-                  {region.name}
+                <div key="name">
+                  <Typography variant="caption" fontWeight="bold">
+                    {region.name}{region.direction && <Typography variant="caption"> ({t(`direction.${region.direction}`)})</Typography>}
+                  </Typography>
                 </div>
               </div>
             )}
           </div>
         ) : (
-          <div style={{width: 200}}>
+          <div>
             <div style={{display: "flex", flexDirection: "row"}}>
               <div
                 style={{
@@ -180,9 +185,31 @@ export const RegionLabel = ({
                 }
                 autoFocus
                 focused={true}
+                autoComplete="off"
               />
-            ) 
-            }
+            )}
+            {enabledProperties.includes("line-direction") && region.type === "line" && (
+              <Box>
+                <Typography variant="caption">
+                  {t("region.label.direction")}: {region.direction ? t(`direction.${region.direction}`) : t("direction.none")}
+                </Typography>
+                <ToggleButtonGroup
+                  size="small"
+                  value={region.direction}
+                  exclusive
+                  onChange={(_, newDirection) => onChange({...(region), direction: newDirection})}
+                >
+                  <ToggleButton value={"N"}><North /></ToggleButton>
+                  <ToggleButton value={"NE"}><NorthEast /></ToggleButton>
+                  <ToggleButton value={"E"}><East /></ToggleButton>
+                  <ToggleButton value={"SE"}><SouthEast /></ToggleButton>
+                  <ToggleButton value={"S"}><South /></ToggleButton>
+                  <ToggleButton value={"SW"}><SouthWest /></ToggleButton>
+                  <ToggleButton value={"W"}><West /></ToggleButton>
+                  <ToggleButton value={"NW"}><NorthWest /></ToggleButton>
+                </ToggleButtonGroup>
+              </Box>
+            )}
             {onClose && (
               <div style={styles.div}>
                   <div>

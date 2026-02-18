@@ -9,6 +9,10 @@ export default {
     maxHeight: "100vh",
     backgroundColor: "#fff",
     overflow: "hidden",
+    userSelect: "none",
+    WebkitUserSelect: "none",
+    MozUserSelect: "none",
+    msUserSelect: "none",
   },
   headerTitle: {
     fontWeight: "bold",

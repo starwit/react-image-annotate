@@ -13,7 +13,7 @@ import {
   faMousePointer,
   faSearch,
   faTag,
-  faVectorSquare
+  faSquare
 } from "@fortawesome/free-solid-svg-icons"
 import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew"
 
@@ -45,7 +45,7 @@ export const iconDictionary = {
       style={faStyle}
       size="xs"
       fixedWidth
-      icon={faVectorSquare}
+      icon={faSquare}
     />
   ),
   "create-polygon": () => (
