@@ -10,7 +10,7 @@ const translationEnEN = {
   "create.line": "Create Line",
   "region.label": "Designation",
   "region.no.name" : "Enter a Name",
-  "region.label.direction": "Compass Direction IN > OUT",
+  "region.label.direction": "Orientation IN > OUT",
   "direction.N": "North",
   "direction.NE": "North East",
   "direction.E": "East",

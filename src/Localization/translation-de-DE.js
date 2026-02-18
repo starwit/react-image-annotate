@@ -10,7 +10,7 @@ const translationDeDE = {
   "create.line": "Lichtschranke erstellen",
   "region.label": "Bezeichnung",
   "region.no.name" : "Namen eingeben",
-  "region.label.direction": "Kompassrichtung IN > OUT",
+  "region.label.direction": "Himmelsrichtung IN > OUT",
   "direction.N": "Nord",
   "direction.NE": "Nordost",
   "direction.E": "Ost",
