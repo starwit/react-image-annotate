@@ -11,14 +11,14 @@ const translationDeDE = {
   "region.label": "Bezeichnung",
   "region.no.name" : "Namen eingeben",
   "region.label.direction": "Kompassrichtung IN > OUT",
-  "direction.north": "Nord",
-  "direction.northeast": "Nordost",
-  "direction.east": "Ost",
-  "direction.southeast": "Südost",
-  "direction.south": "Süd",
-  "direction.southwest": "Südwest",
-  "direction.west": "West",
-  "direction.northwest": "Nordwest",
+  "direction.N": "Nord",
+  "direction.NE": "Nordost",
+  "direction.E": "Ost",
+  "direction.SE": "Südost",
+  "direction.S": "Süd",
+  "direction.SW": "Südwest",
+  "direction.W": "West",
+  "direction.NW": "Nordwest",
   "direction.none": "Keine"
 };
 

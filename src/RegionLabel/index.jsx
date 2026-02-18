@@ -77,7 +77,9 @@ export const RegionLabel = ({
             {region.name && (
               <div className="tags">
                 <div key="name">
-                  <Typography variant="caption" fontWeight="bold">{region.name}{region.direction && <Typography variant="caption"> ({region.direction})</Typography>}</Typography>
+                  <Typography variant="caption" fontWeight="bold">
+                    {region.name}{region.direction && <Typography variant="caption"> ({t(`direction.${region.direction}`)})</Typography>}
+                  </Typography>
                 </div>
               </div>
             )}
@@ -188,21 +190,23 @@ export const RegionLabel = ({
             )}
             {enabledProperties.includes("line-direction") && region.type === "line" && (
               <Box>
-                <Typography variant="caption">{t("region.label.direction")}: {region.direction ? region.direction : t("direction.none")}</Typography>
+                <Typography variant="caption">
+                  {t("region.label.direction")}: {region.direction ? t(`direction.${region.direction}`) : t("direction.none")}
+                </Typography>
                 <ToggleButtonGroup
                   size="small"
-                  value={region.direction || ""}
+                  value={region.direction}
                   exclusive
                   onChange={(_, newDirection) => onChange({...(region), direction: newDirection})}
                 >
-                  <ToggleButton value={t("direction.north")}><North /></ToggleButton>
-                  <ToggleButton value={t("direction.northeast")}><NorthEast /></ToggleButton>
-                  <ToggleButton value={t("direction.east")}><East /></ToggleButton>
-                  <ToggleButton value={t("direction.southeast")}><SouthEast /></ToggleButton>
-                  <ToggleButton value={t("direction.south")}><South /></ToggleButton>
-                  <ToggleButton value={t("direction.southwest")}><SouthWest /></ToggleButton>
-                  <ToggleButton value={t("direction.west")}><West /></ToggleButton>
-                  <ToggleButton value={t("direction.northwest")}><NorthWest /></ToggleButton>
+                  <ToggleButton value={"N"}><North /></ToggleButton>
+                  <ToggleButton value={"NE"}><NorthEast /></ToggleButton>
+                  <ToggleButton value={"E"}><East /></ToggleButton>
+                  <ToggleButton value={"SE"}><SouthEast /></ToggleButton>
+                  <ToggleButton value={"S"}><South /></ToggleButton>
+                  <ToggleButton value={"SW"}><SouthWest /></ToggleButton>
+                  <ToggleButton value={"W"}><West /></ToggleButton>
+                  <ToggleButton value={"NW"}><NorthWest /></ToggleButton>
                 </ToggleButtonGroup>
               </Box>
             )}

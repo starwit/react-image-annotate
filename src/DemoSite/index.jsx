@@ -8,9 +8,7 @@ export default () => {
     <Annotator
       {...(annotatorProps)}
       onExit={(output) => {
-        delete (output)["lastAction"]
-        changeLastOutput(output)
-        changeAnnotatorOpen(false)
+        console.log(output)
       }}
     />
   )
