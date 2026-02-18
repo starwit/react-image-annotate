@@ -183,6 +183,7 @@ export const RegionLabel = ({
                 }
                 autoFocus
                 focused={true}
+                autoComplete="off"
               />
             )}
             {enabledProperties.includes("line-direction") && region.type === "line" && (
