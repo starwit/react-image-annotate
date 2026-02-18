@@ -32,7 +32,6 @@ export const RegionLabel = ({
   onRegionClassAdded,
   enabledProperties
 }) => {
-  console.log(region)
   const commentInputRef = useRef(null)
   const {t} = useTranslation();
   const onCommentInputClick = (_) => {
