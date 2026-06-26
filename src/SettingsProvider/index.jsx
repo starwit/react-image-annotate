@@ -5,7 +5,6 @@ import "../Localization/i18n.js"
 
 const defaultSettings = {
   showCrosshairs: false,
-  showHighlightBox: true,
   wasdMode: true,
 }
 

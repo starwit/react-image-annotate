@@ -2,7 +2,7 @@
 
 import React from "react"
 import Paper from "@mui/material/Paper"
-import DefaultRegionLabel from "../RegionLabel"
+import RegionLabel from "../RegionLabel"
 import LockIcon from "@mui/icons-material/Lock"
 
 const copyWithout = (obj, ...args) => {
@@ -18,27 +18,20 @@ export const RegionTags = ({
   projectRegionBox,
   mouseEvents,
   regionClsList,
-  regionTagList,
   onBeginRegionEdit,
   onChangeRegion,
   onCloseRegionEdit,
   onDeleteRegion,
-  layoutParams,
   imageSrc,
-  RegionEditLabel,
-  onRegionClassAdded,
   enabledRegionProps,
 }) => {
-  const RegionLabel =
-    RegionEditLabel != null ? RegionEditLabel : DefaultRegionLabel
   return regions
     .filter((r) => r.visible || r.visible === undefined)
     .map((region) => {
       const pbox = projectRegionBox(region)
-      let margin = 8
-      if (region.highlighted && region.type === "box") margin += 6
+      const margin = 8
       const labelBoxHeight =
-        region.editingLabels && !region.locked ? 170 : region.tags ? 60 : 50
+        region.editingLabels && !region.locked ? 170 : 50
       const displayOnTop = pbox.y > labelBoxHeight
 
       const coords = displayOnTop
@@ -111,7 +104,6 @@ export const RegionTags = ({
           >
             <RegionLabel
               allowedClasses={regionClsList}
-              allowedTags={regionTagList}
               onOpen={onBeginRegionEdit}
               onChange={onChangeRegion}
               onClose={onCloseRegionEdit}
@@ -120,7 +112,6 @@ export const RegionTags = ({
               region={region}
               regions={regions}
               imageSrc={imageSrc}
-              onRegionClassAdded={onRegionClassAdded}
               enabledProperties={enabledRegionProps}
             />
           </div>

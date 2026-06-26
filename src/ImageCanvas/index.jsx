@@ -7,11 +7,8 @@ import PreventScrollToParents from "../PreventScrollToParents"
 import useWindowSize from "../hooks/use-window-size.js"
 import useMouse from "./use-mouse"
 import useProjectRegionBox from "./use-project-box"
-import useExcludePattern from "../hooks/use-exclude-pattern"
 import {useRafState} from "react-use"
-import PointDistances from "../PointDistances"
 import RegionTags from "../RegionTags"
-import RegionLabel from "../RegionLabel"
 import RegionSelectAndTransformBoxes from "../RegionSelectAndTransformBoxes"
 import ImageCanvasBackground from "../ImageCanvasBackground/index.jsx"
 import useEventCallback from "use-event-callback"
@@ -21,51 +18,28 @@ import PropTypes from 'prop-types'
 
 const theme = createTheme()
 
-const getDefaultMat = (allowedArea = null, {iw, ih} = {}) => {
-  let mat = Matrix.from(1, 0, 0, 1, -10, -10)
-  if (allowedArea && iw) {
-    mat = mat
-      .translate(allowedArea.x * iw, allowedArea.y * ih)
-      .scaleU(allowedArea.w + 0.05)
-  }
-  return mat
-}
+const getDefaultMat = () => Matrix.from(1, 0, 0, 1, -10, -10)
 
 export const ImageCanvas = ({
   regions,
   imageSrc,
-  realSize,
-  showTags,
   onMouseMove = (p) => null,
   onMouseDown = (p) => null,
   onMouseUp = (p) => null,
   dragWithPrimary = false,
   zoomWithPrimary = false,
   createWithPrimary = false,
-  pointDistancePrecision = 0,
   regionClsList,
-  regionTagList,
   showCrosshairs,
-  showHighlightBox = true,
-  showPointDistances,
-  allowedArea,
-  RegionEditLabel = null,
   onImageLoadedDispatch,
   onChangeRegion,
   onBeginRegionEdit,
   onCloseRegionEdit,
-  onBeginBoxTransform,
   onBeginMoveLinePoint,
   onBeginMovePolygonPoint,
   onAddPolygonPoint,
-  onBeginMoveKeypoint,
   onSelectRegion,
-  onBeginMovePoint,
   onDeleteRegion,
-  onRegionClassAdded,
-  zoomOnAllowedArea = true,
-  modifyingAllowedArea = false,
-  keypointDefinitions,
   enabledRegionProps
 }) => {
   const canvasEl = useRef(null)
@@ -114,8 +88,6 @@ export const ImageCanvas = ({
     }
   )
 
-  const excludePattern = useExcludePattern()
-
   const canvas = canvasEl.current
   if (canvas && imageLoaded) {
     const {clientWidth, clientHeight} = canvas
@@ -141,12 +113,7 @@ export const ImageCanvas = ({
 
   useEffect(() => {
     if (!imageLoaded) return
-    changeMat(
-      getDefaultMat(
-        zoomOnAllowedArea ? allowedArea : null,
-        layoutParams.current
-      )
-    )
+    changeMat(getDefaultMat())
     // eslint-disable-next-line
   }, [imageLoaded])
 
@@ -154,47 +121,10 @@ export const ImageCanvas = ({
     if (!imageDimensions) return
     const {clientWidth, clientHeight} = canvas
     canvas.width = clientWidth
-    // TODO: This might a problem - Content window becoming bigger comes from this
     canvas.height = clientHeight
     const context = canvas.getContext("2d")
     context.save()
     context.transform(...mat.clone().inverse().toArray())
-
-    const {iw, ih} = layoutParams.current
-
-    if (allowedArea) {
-      // Pattern to indicate the NOT allowed areas
-      const {x, y, w, h} = allowedArea
-      context.save()
-      context.globalAlpha = 1
-      const outer = [
-        [0, 0],
-        [iw, 0],
-        [iw, ih],
-        [0, ih]
-      ]
-      const inner = [
-        [x * iw, y * ih],
-        [x * iw + w * iw, y * ih],
-        [x * iw + w * iw, y * ih + h * ih],
-        [x * iw, y * ih + h * ih]
-      ]
-      context.moveTo(...outer[0])
-      outer.forEach((p) => context.lineTo(...p))
-      context.lineTo(...outer[0])
-      context.closePath()
-
-      inner.reverse()
-      context.moveTo(...inner[0])
-      inner.forEach((p) => context.lineTo(...p))
-      context.lineTo(...inner[0])
-
-      context.fillStyle = excludePattern || "#f00"
-      context.fill()
-
-      context.restore()
-    }
-
     context.restore()
   })
 
@@ -224,12 +154,6 @@ export const ImageCanvas = ({
     bottomRight: mat.clone().inverse().applyToPoint(iw, ih)
   }
 
-  const highlightedRegion = useMemo(() => {
-    const highlightedRegions = regions.filter((r) => r.highlighted)
-    if (highlightedRegions.length !== 1) return null
-    return highlightedRegions[0]
-  }, [regions])
-
   return (
     <ThemeProvider theme={theme}>
       <div
@@ -258,75 +182,36 @@ export const ImageCanvas = ({
         {imageLoaded && !dragging && (
           <RegionSelectAndTransformBoxes
             key="regionSelectAndTransformBoxes"
-            regions={
-              !modifyingAllowedArea || !allowedArea
-                ? regions
-                : [
-                  {
-                    type: "box",
-                    id: "$$allowed_area",
-                    cls: "allowed_area",
-                    highlighted: true,
-                    x: allowedArea.x,
-                    y: allowedArea.y,
-                    w: allowedArea.w,
-                    h: allowedArea.h,
-                    visible: true,
-                    color: "#ff0"
-                  }
-                ]
-            }
+            regions={regions}
             mouseEvents={mouseEvents}
             projectRegionBox={projectRegionBox}
             dragWithPrimary={dragWithPrimary}
             createWithPrimary={createWithPrimary}
             zoomWithPrimary={zoomWithPrimary}
-            onBeginMovePoint={onBeginMovePoint}
             onSelectRegion={onSelectRegion}
             layoutParams={layoutParams}
             mat={mat}
-            onBeginBoxTransform={onBeginBoxTransform}
             onBeginMoveLinePoint={onBeginMoveLinePoint}
             onBeginMovePolygonPoint={onBeginMovePolygonPoint}
-            onBeginMoveKeypoint={onBeginMoveKeypoint}
             onAddPolygonPoint={onAddPolygonPoint}
-            showHighlightBox={showHighlightBox}
           />
         )}
-        {imageLoaded && showTags && !dragging && (
+        {imageLoaded && !dragging && (
           <PreventScrollToParents key="regionTags">
             <RegionTags
               regions={regions}
               projectRegionBox={projectRegionBox}
               mouseEvents={mouseEvents}
               regionClsList={regionClsList}
-              regionTagList={regionTagList}
               onBeginRegionEdit={onBeginRegionEdit}
               onChangeRegion={onChangeRegion}
               onCloseRegionEdit={onCloseRegionEdit}
               onDeleteRegion={onDeleteRegion}
               layoutParams={layoutParams}
               imageSrc={imageSrc}
-              RegionEditLabel={RegionEditLabel}
-              onRegionClassAdded={onRegionClassAdded}
               enabledRegionProps={enabledRegionProps}
             />
           </PreventScrollToParents>
-        )}
-        {!showTags && highlightedRegion && (
-          <div key="topLeftTag" style={styles.fixedRegionLabel}>
-            <RegionLabel
-              disableClose
-              allowedClasses={regionClsList}
-              allowedTags={regionTagList}
-              onChange={onChangeRegion}
-              onDelete={onDeleteRegion}
-              editing
-              region={highlightedRegion}
-              imageSrc={imageSrc}
-              enabledProperties={enabledRegionProps}
-            />
-          </div>
         )}
 
         {zoomWithPrimary && zoomBox !== null && (
@@ -344,15 +229,6 @@ export const ImageCanvas = ({
             }}
           />
         )}
-        {showPointDistances && (
-          <PointDistances
-            key="pointDistances"
-            regions={regions}
-            realSize={realSize}
-            projectRegionBox={projectRegionBox}
-            pointDistancePrecision={pointDistancePrecision}
-          />
-        )}
         <PreventScrollToParents
           style={{width: "100%", height: "100%"}}
           {...mouseEvents}
@@ -364,10 +240,8 @@ export const ImageCanvas = ({
             />
             <RegionShapes
               mat={mat}
-              keypointDefinitions={keypointDefinitions}
               imagePosition={imagePosition}
               regions={regions}
-              fullSegmentationMode={false}
             />
             <ImageCanvasBackground
               imagePosition={imagePosition}
@@ -389,39 +263,24 @@ export const ImageCanvas = ({
 ImageCanvas.propTypes = {
   regions: PropTypes.arrayOf(PropTypes.object).isRequired,
   imageSrc: PropTypes.string,
-  keypointDefinitions: PropTypes.elementType,
   onMouseMove: PropTypes.func,
   onMouseDown: PropTypes.func,
   onMouseUp: PropTypes.func,
   dragWithPrimary: PropTypes.bool,
   zoomWithPrimary: PropTypes.bool,
   createWithPrimary: PropTypes.bool,
-  showTags: PropTypes.bool,
-  realSize: PropTypes.shape({width: PropTypes.number, height: PropTypes.number, unitName: PropTypes.string}),
   showCrosshairs: PropTypes.bool,
-  showMask: PropTypes.bool,
-  showHighlightBox: PropTypes.bool,
-  showPointDistances: PropTypes.bool,
-  pointDistancePrecision: PropTypes.number,
   regionClsList: PropTypes.arrayOf(PropTypes.string),
-  regionTagList: PropTypes.arrayOf(PropTypes.string),
-  allowedArea: PropTypes.shape({x: PropTypes.number, y: PropTypes.number, w: PropTypes.number, h: PropTypes.number}),
-  RegionEditLabel: PropTypes.element,
-  zoomOnAllowedArea: PropTypes.bool,
-  modifyingAllowedArea: PropTypes.bool,
   enabledRegionProps: PropTypes.arrayOf(PropTypes.string),
   onChangeRegion: PropTypes.func.isRequired,
   onBeginRegionEdit: PropTypes.func.isRequired,
   onCloseRegionEdit: PropTypes.func.isRequired,
   onDeleteRegion: PropTypes.func.isRequired,
-  onBeginBoxTransform: PropTypes.func.isRequired,
+  onBeginMoveLinePoint: PropTypes.func.isRequired,
   onBeginMovePolygonPoint: PropTypes.func.isRequired,
-  onBeginMoveKeypoint: PropTypes.func.isRequired,
   onAddPolygonPoint: PropTypes.func.isRequired,
   onSelectRegion: PropTypes.func.isRequired,
-  onBeginMovePoint: PropTypes.func.isRequired,
   onImageLoadedDispatch: PropTypes.func.isRequired,
-  onRegionClassAdded: PropTypes.func.isRequired,
 }
 
 export default ImageCanvas
