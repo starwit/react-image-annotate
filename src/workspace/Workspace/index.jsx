@@ -34,7 +34,6 @@ export default ({
   onClickHeaderItem,
   headerLeftSide = null,
   iconDictionary = emptyObj,
-  rightSidebarExpanded,
   hideHeader = false,
   hideHeaderText = false,
   children,
@@ -55,10 +54,7 @@ export default ({
           <SidebarsAndContent ref={sidebarAndContentRef}>
             <WorkContainer>{children}</WorkContainer>
             {rightSidebarItems.length === 0 ? null : (
-              <RightSidebar
-                initiallyExpanded={rightSidebarExpanded}
-                height={sidebarAndContent.height || 0}
-              >
+              <RightSidebar height={sidebarAndContent.height || 0}>
                 {rightSidebarItems}
               </RightSidebar>
             )}
