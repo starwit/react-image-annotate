@@ -13,7 +13,6 @@ import RegionSelectAndTransformBoxes from "../RegionSelectAndTransformBoxes"
 import ImageCanvasBackground from "../ImageCanvasBackground/index.jsx"
 import useEventCallback from "use-event-callback"
 import RegionShapes from "../RegionShapes"
-import useWasdMode from "./use-wasd-mode"
 import PropTypes from 'prop-types'
 
 const theme = createTheme()
@@ -50,9 +49,6 @@ export const ImageCanvas = ({
   const [zoomEnd, changeZoomEnd] = useRafState(null)
   const [mat, changeMat] = useRafState(getDefaultMat())
   const windowSize = useWindowSize()
-
-  const getLatestMat = useEventCallback(() => mat)
-  useWasdMode({getLatestMat, changeMat, movementLocked})
 
   const {mouseEvents, mousePosition} = useMouse({
     canvasEl,

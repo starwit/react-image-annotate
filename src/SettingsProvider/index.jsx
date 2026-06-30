@@ -5,7 +5,6 @@ import "../Localization/i18n.js"
 
 const defaultSettings = {
   showCrosshairs: false,
-  wasdMode: true,
 }
 
 export const SettingsContext = createContext(defaultSettings)
