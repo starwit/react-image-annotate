@@ -57,22 +57,22 @@ const RowLayout = ({
       className={classnames({header, highlighted})}
     >
       <Grid container alignItems="center">
-        <Grid item xs={2}>
+        <Grid size={2}>
           <div style={{textAlign: "right", paddingRight: 10}}>{order}</div>
         </Grid>
-        <Grid item xs={5}>
+        <Grid size={5}>
           {name}
         </Grid>
-        <Grid item xs={2}>
+        <Grid size={2}>
           <div style={{textAlign: "right", paddingRight: 6}}>{minimize}</div>
         </Grid>
-        <Grid item xs={1}>
+        <Grid size={1}>
           {trash}
         </Grid>
-        <Grid item xs={1}>
+        <Grid size={1}>
           {lock}
         </Grid>
-        <Grid item xs={1}>
+        <Grid size={1}>
           {visible}
         </Grid>
       </Grid>
