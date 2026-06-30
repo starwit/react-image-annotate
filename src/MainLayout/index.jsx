@@ -4,7 +4,6 @@ import { useCallback, useRef } from "react"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 import ClassSelectionMenu from "../ClassSelectionMenu"
-import DebugBox from "../DebugSidebarBox"
 import HistorySidebarBox from "../HistorySidebarBox"
 import ImageCanvas from "../ImageCanvas"
 import RegionSelector from "../RegionSelectorSidebarBox"
@@ -123,8 +122,6 @@ export const MainLayout = ({
   const onClickHeaderItem = useEventCallback((item) => {
     dispatch({ type: "HEADER_BUTTON_CLICKED", buttonName: item.name })
   })
-  const debugModeOn = Boolean(window.localStorage.$ANNOTATE_DEBUG_MODE && state)
-
   return (
     <ThemeProvider theme={theme}>
       <HotkeyDiv
@@ -150,9 +147,6 @@ export const MainLayout = ({
           ].filter(Boolean)}
           onClickHeaderItem={onClickHeaderItem}
           rightSidebarItems={[
-            debugModeOn && (
-              <DebugBox state={debugModeOn} lastAction={state.lastAction} key="DebugBox" />
-            ),
             state.regionClsList && (
               <ClassSelectionMenu
                 key="ClassSelectionMenu"
