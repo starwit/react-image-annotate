@@ -41,7 +41,7 @@ export const RegionLabel = ({
         className={region.highlighted ? "highlighted" : ""}
       >
         {!editing ? (
-          <div>
+          <div style={{whiteSpace: "nowrap"}}>
             {region.cls && (
               <div className="name">
                 <div

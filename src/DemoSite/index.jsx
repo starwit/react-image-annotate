@@ -13,7 +13,7 @@ export default () => {
         style={{
           position: "fixed",
           top: 8,
-          right: 8,
+          right: 80,
           zIndex: 10000,
           padding: "6px 12px",
           cursor: "pointer",

@@ -22,6 +22,7 @@ export const RegionTags = ({
   onChangeRegion,
   onCloseRegionEdit,
   onDeleteRegion,
+  layoutParams,
   imageSrc,
   enabledRegionProps,
 }) => {
@@ -30,9 +31,12 @@ export const RegionTags = ({
     .map((region) => {
       const pbox = projectRegionBox(region)
       const margin = 8
+      const labelBoxWidth = region.editingLabels && !region.locked ? 340 : 160
       const labelBoxHeight =
-        region.editingLabels && !region.locked ? 170 : 50
+        region.editingLabels && !region.locked ? 200 : 50
       const displayOnTop = pbox.y > labelBoxHeight
+      const canvasWidth = layoutParams?.current?.canvasWidth
+      const overflowsRight = canvasWidth && pbox.x + labelBoxWidth > canvasWidth
 
       const coords = displayOnTop
         ? {
@@ -79,7 +83,6 @@ export const RegionTags = ({
             position: "absolute",
             ...coords,
             zIndex: 10 + (region.editingLabels ? 5 : 0),
-            width: 200,
           }}
           onMouseDown={(e) => e.preventDefault()}
           onMouseUp={(e) => e.preventDefault()}
@@ -95,7 +98,7 @@ export const RegionTags = ({
             style={{
               position: "absolute",
               zIndex: 20,
-              left: 0,
+              ...(overflowsRight ? {right: 0} : {left: 0}),
               ...(displayOnTop ? {bottom: 0} : {top: 0}),
             }}
             {...(!region.editingLabels
