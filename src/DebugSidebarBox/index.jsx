@@ -1,4 +1,3 @@
-import React from "react"
 import SidebarBoxContainer from "../SidebarBoxContainer"
 
 export const DebugSidebarBox = ({ state, lastAction }) => {

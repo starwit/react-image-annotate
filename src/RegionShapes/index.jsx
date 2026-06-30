@@ -1,6 +1,6 @@
 // @flow
 
-import React, {memo} from "react"
+import {memo} from "react"
 import colorAlpha from "color-alpha"
 
 const RegionComponents = {

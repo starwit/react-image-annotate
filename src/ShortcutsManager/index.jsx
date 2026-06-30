@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import { useMemo } from "react"
 import { HotKeys } from "react-hotkeys"
 
 export const defaultHotkeys = [

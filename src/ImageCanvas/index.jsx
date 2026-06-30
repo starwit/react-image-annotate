@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useMemo, useRef, useState} from "react"
+import {useEffect, useLayoutEffect, useMemo, useRef, useState} from "react"
 import {Matrix} from "transformation-matrix-js"
 import Crosshairs from "../Crosshairs"
 import {createTheme, ThemeProvider} from "@mui/material/styles"

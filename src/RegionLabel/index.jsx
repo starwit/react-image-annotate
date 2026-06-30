@@ -1,6 +1,6 @@
 // @flow
 
-import React, {memo, useRef} from "react"
+import {memo, useRef} from "react"
 import Paper from "@mui/material/Paper"
 import {createTheme, styled, ThemeProvider} from "@mui/material/styles"
 import styles from "./styles"

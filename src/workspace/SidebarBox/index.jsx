@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState, memo, useCallback } from "react"
+import { useState, memo, useCallback } from "react"
 import { createTheme, styled, ThemeProvider } from "@mui/material/styles"
 import ExpandIcon from "@mui/icons-material/ExpandMore"
 import IconButton from "@mui/material/IconButton"

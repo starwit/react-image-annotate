@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useCallback, useRef } from "react"
+import { useCallback, useRef } from "react"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 import ClassSelectionMenu from "../ClassSelectionMenu"

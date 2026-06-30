@@ -1,4 +1,4 @@
-import React, { Fragment, memo } from "react"
+import { Fragment, memo } from "react"
 import { createTheme, styled, ThemeProvider } from "@mui/material/styles"
 import PreventScrollToParents from "../PreventScrollToParents"
 

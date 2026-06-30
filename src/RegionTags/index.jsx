@@ -1,6 +1,5 @@
 // @flow weak
 
-import React from "react"
 import Paper from "@mui/material/Paper"
 import RegionLabel from "../RegionLabel"
 import LockIcon from "@mui/icons-material/Lock"

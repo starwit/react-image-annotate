@@ -1,6 +1,6 @@
 // @flow
 
-import React, {useEffect, useReducer} from "react"
+import {useEffect, useReducer} from "react"
 import {produce} from "immer"
 
 import MainLayout from "../MainLayout"

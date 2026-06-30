@@ -1,4 +1,3 @@
-import React from "react"
 import {createTheme, styled, ThemeProvider} from "@mui/material/styles"
 import Header from "../Header"
 import RightSidebar from "../RightSidebar"

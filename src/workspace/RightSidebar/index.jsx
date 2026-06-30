@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import { useMemo } from "react"
 import { createTheme, styled, ThemeProvider } from "@mui/material/styles"
 
 const theme = createTheme()
