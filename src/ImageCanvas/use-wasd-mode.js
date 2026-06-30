@@ -1,10 +1,10 @@
 import {useEffect} from "react"
 import {useSettings} from "../SettingsProvider"
 
-export default ({getLatestMat, changeMat}) => {
+export default ({getLatestMat, changeMat, movementLocked}) => {
   const {wasdMode} = useSettings()
   useEffect(() => {
-    if (!wasdMode) return
+    if (!wasdMode || movementLocked) return
     const vel = 10
     const dirs = {
       w: [0, -vel],
@@ -46,5 +46,5 @@ export default ({getLatestMat, changeMat}) => {
       window.removeEventListener("keydown", keyDownListener)
       window.removeEventListener("keyup", keyUpListener)
     }
-  }, [changeMat, getLatestMat, wasdMode])
+  }, [changeMat, getLatestMat, wasdMode, movementLocked])
 }

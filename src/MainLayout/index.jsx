@@ -36,6 +36,7 @@ export const MainLayout = ({
   hideHeaderText,
   hideSave = false,
   enabledRegionProps,
+  movementLocked = false,
 }) => {
   const settings = useSettings()
 
@@ -90,6 +91,7 @@ export const MainLayout = ({
       createWithPrimary={state.selectedTool.includes("create")}
       dragWithPrimary={state.selectedTool === "pan"}
       zoomWithPrimary={state.selectedTool === "zoom"}
+      movementLocked={movementLocked}
       onMouseMove={action("MOUSE_MOVE")}
       onMouseDown={action("MOUSE_DOWN")}
       onMouseUp={action("MOUSE_UP")}

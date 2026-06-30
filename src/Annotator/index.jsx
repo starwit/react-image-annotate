@@ -27,6 +27,7 @@ export const Annotator = ({
   hideHeaderText,
   hideSave,
   enabledRegionProps = ["class", "name"],
+  movementLocked = false,
   userReducer
 }) => {
   if (typeof selectedImage === "string") {
@@ -85,6 +86,7 @@ export const Annotator = ({
         hideHeaderText={hideHeaderText}
         hideSave={hideSave}
         enabledRegionProps={enabledRegionProps}
+        movementLocked={movementLocked}
       />
     </SettingsProvider>
   )
@@ -102,6 +104,7 @@ Annotator.propTypes = {
   hideHeaderText: PropTypes.bool,
   hideSave: PropTypes.bool,
   enabledRegionProps: PropTypes.arrayOf(PropTypes.string),
+  movementLocked: PropTypes.bool,
   userReducer: PropTypes.func
 }
 

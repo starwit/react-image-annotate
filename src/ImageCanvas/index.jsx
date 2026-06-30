@@ -29,6 +29,7 @@ export const ImageCanvas = ({
   dragWithPrimary = false,
   zoomWithPrimary = false,
   createWithPrimary = false,
+  movementLocked = false,
   regionClsList,
   showCrosshairs,
   onImageLoadedDispatch,
@@ -51,7 +52,7 @@ export const ImageCanvas = ({
   const windowSize = useWindowSize()
 
   const getLatestMat = useEventCallback(() => mat)
-  useWasdMode({getLatestMat, changeMat})
+  useWasdMode({getLatestMat, changeMat, movementLocked})
 
   const {mouseEvents, mousePosition} = useMouse({
     canvasEl,
@@ -66,12 +67,20 @@ export const ImageCanvas = ({
     changeDragging,
     zoomWithPrimary,
     dragWithPrimary,
+    movementLocked,
     onMouseMove,
     onMouseDown,
     onMouseUp
   })
 
   useLayoutEffect(() => changeMat(mat.clone()), [windowSize])
+
+  // When movement is locked, reset zoom/pan to the default view. While locked,
+  // all pan/zoom input is ignored, so the matrix stays at this default.
+  useEffect(() => {
+    if (movementLocked) changeMat(getDefaultMat())
+    // eslint-disable-next-line
+  }, [movementLocked])
 
   const projectRegionBox = useProjectRegionBox({layoutParams, mat})
 
@@ -165,15 +174,17 @@ export const ImageCanvas = ({
           overflow: "hidden",
           cursor: createWithPrimary
             ? "crosshair"
-            : dragging
-              ? "grabbing"
-              : dragWithPrimary
-                ? "grab"
-                : zoomWithPrimary
-                  ? mat.a < 1
-                    ? "zoom-out"
-                    : "zoom-in"
-                  : undefined
+            : movementLocked
+              ? undefined
+              : dragging
+                ? "grabbing"
+                : dragWithPrimary
+                  ? "grab"
+                  : zoomWithPrimary
+                    ? mat.a < 1
+                      ? "zoom-out"
+                      : "zoom-in"
+                    : undefined
         }}
       >
         {showCrosshairs && (
@@ -269,6 +280,7 @@ ImageCanvas.propTypes = {
   dragWithPrimary: PropTypes.bool,
   zoomWithPrimary: PropTypes.bool,
   createWithPrimary: PropTypes.bool,
+  movementLocked: PropTypes.bool,
   showCrosshairs: PropTypes.bool,
   regionClsList: PropTypes.arrayOf(PropTypes.string),
   enabledRegionProps: PropTypes.arrayOf(PropTypes.string),
