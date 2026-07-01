@@ -2,28 +2,25 @@
 
 ## Features
 
-- [API Documentation](docs/content.md)
 - Simple input/output format
-- Bounding Box, Point and Polygon Annotation
-- Zooming, Scaling, Panning
-- Multiple Images
+- Polygon and Line Annotation
+- Zooming, Scaling, Panning (can be locked via `movementLocked`)
 - Cursor Crosshair
 
 ![Screenshot of Annotator](https://user-images.githubusercontent.com/1910070/51199716-83c72080-18c5-11e9-837c-c3a89c8caef4.png)
 
 ## Usage
 
-`npm install react-image-annotate`
+`npm install @starwit/react-image-annotate`
 
 ```javascript
 import React from "react";
-import ReactImageAnnotate from "react-image-annotate";
+import ReactImageAnnotate from "@starwit/react-image-annotate";
 
 const App = () => (
   <ReactImageAnnotate
-    labelImages
     regionClsList={["Alpha", "Beta", "Charlie", "Delta"]}
-    regionTagList={["tag1", "tag2", "tag3"]}
+    onExit={(output) => console.log(output)}
     images={[
       {
         src: "https://placekitten.com/408/287",
@@ -49,32 +46,21 @@ following line added to a css file should suffice.
 
 All of the following properties can be defined on the Annotator...
 
-| Prop                     | Type (\* = required)                             | Description                                                                             | Default       |
-| ------------------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------- | ------------- |
-| `taskDescription`        | \*`string`                                       | Markdown description for what to do in the image.                                       |               |
-| `allowedArea`            | `{ x: number, y: number, w: number, h: number }` | Area that is available for annotation.                                                  | Entire image. |
-| `regionTagList`          | `Array<string>`                                  | Allowed "tags" (mutually inclusive classifications) for regions.                        |               |
-| `regionClsList`          | `Array<string>`                                  | Allowed "classes" (mutually exclusive classifications) for regions.           
-| `regionColorList`        | `Array<string>`                                  | Custom color list for regions. Default colors are used if not specified.
-| `preselectCls`          | `string`                                          |  Put in the class that should be preselected when creating a new Box/Polygon etc.           |               |
-| `imageTagList`           | `Array<string>`                                  | Allowed tags for entire image.                                                          |               |
-| `imageClsList`           | `Array<string>`                                  | Allowed classes for entire image.                                                       |               |
-| `enabledTools`           | `Array<string>`                                  | Tools allowed to be used. e.g. "select", "create-point", "create-box", "create-polygon" | Everything.   |
-| `showTags`               | `boolean`                                        | Show tags and allow tags on regions.                                                    | `true`        |
-| `selectedImage`          | `string`                                         | URL of initially selected image.                                                        |               |
-| `images`                 | `Array<Image>`                                   | Array of images to load into annotator                                                  |               |
-| `showPointDistances`     | `boolean`                                        | Show distances between points.                                                          | `false`       |
-| `pointDistancePrecision` | `number`                                         | Precision on displayed points (e.g. 3 => 0.123)                                         |               |
-| `onExit`                 | `MainLayoutState => any`                         | Called when "Save" is called.                                                           |               |
-| `RegionEditLabel`        | `Node`                                           | React Node overriding the form to update the region (see [`RegionLabel`](https://github.com/waoai/react-image-annotate/blob/master/src/RegionLabel/index.js))                                                          |               |
-| `enabledRegionProps`     | `boolean`                                        | Which properties to show in region edit popup ("class", "tags", "name", "comment")      | [`class`, `name`] |
-| `hidePrev`               | `boolean`                                        | Hide `Previous Image` button from the header bar.                                       | `false`       |
-| `hideNext`               | `boolean`                                        | Hide `Next Image` button from the header bar.                                           | `false`       |
-| `hideClone`              | `boolean`                                        | Hide `Clone` button from the header bar.                                                | `false`       |
-| `hideSettings`           | `boolean`                                        | Hide `Settings` button from the header bar.                                             | `false`       |
-| `hideFullScreen`         | `boolean`                                        | Hide `FullScreen/Window` button from the header bar.                                    | `false`       |
-| `hideSave`               | `boolean`                                        | Hide `Save` button from the header bar.                                                 | `false`       |
-| `userReducer`            | `(state, action) => state`                       | User defined reducer that receives every event triggered within the annotator. See demo site for example. | |
+| Prop                 | Type (\* = required)         | Description                                                                                                | Default            |
+| -------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------ |
+| `images`             | `Array<Image>`               | Array of images to load into the annotator.                                                               |                    |
+| `selectedImage`      | `number \| string`           | Index or `src` URL of the initially selected image.                                                       | First image.       |
+| `selectedTool`       | `string`                     | Initially selected tool. e.g. "select", "pan", "zoom", "create-polygon", "create-line".                   | `"select"`         |
+| `regionClsList`      | `Array<string>`              | Allowed "classes" (mutually exclusive classifications) for regions.                                       |                    |
+| `regionColorList`    | `Array<string>`              | Custom color list for regions (matched by index to `regionClsList`). Default colors are used otherwise.   |                    |
+| `preselectCls`       | `string`                     | Class that should be preselected when creating a new region.                                              |                    |
+| `onExit`             | \*`MainLayoutState => any`   | Called when "Save" is clicked, with the current state (history omitted).                                  |                    |
+| `enabledRegionProps` | `Array<string>`              | Which properties to show in the region edit popup ("name", "line-direction").                             | `["class", "name"]` |
+| `movementLocked`     | `boolean`                    | Reset zoom/pan to the default view and lock canvas movement (panning/zooming).                            | `false`            |
+| `hideHeader`         | `boolean`                    | Hide the entire header bar.                                                                               | `false`            |
+| `hideHeaderText`     | `boolean`                    | Hide the text/description in the header bar.                                                              | `false`            |
+| `hideSave`           | `boolean`                    | Hide the `Save` button from the header bar.                                                               | `false`            |
+| `userReducer`        | `(state, action) => state`   | User defined reducer that receives every event triggered within the annotator. See demo site for example. |                    |
 
 ## Developers
 
