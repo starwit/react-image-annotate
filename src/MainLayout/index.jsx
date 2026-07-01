@@ -12,11 +12,9 @@ import getActiveImage from "../Annotator/reducers/get-active-image"
 import iconDictionary from "./icon-dictionary"
 import styles from "./styles"
 import { useDispatchHotkeyHandlers } from "../ShortcutsManager"
-import useEventCallback from "use-event-callback"
 import { useKey } from "react-use"
 import { useSettings } from "../SettingsProvider"
 import { withHotKeys } from "react-hotkeys"
-import { Save } from "@mui/icons-material"
 
 
 const emptyArr = []
@@ -31,9 +29,6 @@ const HotkeyDiv = withHotKeys(({ hotKeys, children, divRef, ...props }) => (
 export const MainLayout = ({
   state,
   dispatch,
-  hideHeader,
-  hideHeaderText,
-  hideSave = false,
   enabledRegionProps,
   movementLocked = false,
 }) => {
@@ -119,9 +114,6 @@ export const MainLayout = ({
       enabledRegionProps={enabledRegionProps}
     />
   )
-  const onClickHeaderItem = useEventCallback((item) => {
-    dispatch({ type: "HEADER_BUTTON_CLICKED", buttonName: item.name })
-  })
   return (
     <ThemeProvider theme={theme}>
       <HotkeyDiv
@@ -135,17 +127,6 @@ export const MainLayout = ({
       >
         <Workspace
           iconDictionary={iconDictionary}
-          hideHeader={hideHeader}
-          hideHeaderText={hideHeaderText}
-          headerLeftSide={[
-            activeImage ? (
-              <div key="activeImage" style={styles.headerTitle}>{activeImage.name}</div>
-            ) : null,
-          ].filter(Boolean)}
-          headerItems={[
-            !hideSave && { name: "Save", icon: <Save /> },
-          ].filter(Boolean)}
-          onClickHeaderItem={onClickHeaderItem}
           rightSidebarItems={[
             state.regionClsList && (
               <ClassSelectionMenu

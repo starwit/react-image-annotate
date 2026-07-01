@@ -1,33 +1,37 @@
-import {useState} from "react"
+import {useRef, useState} from "react"
 import {examples} from "./Examples.jsx"
 import Annotator from "../Annotator"
 
 export default () => {
   const annotatorProps = examples["Constrained Tools"]();
   const [movementLocked, setMovementLocked] = useState(false)
+  const annotatorRef = useRef(null)
 
   return (
-    <>
-      <button
-        onClick={() => setMovementLocked((locked) => !locked)}
+    <div style={{display: "flex", flexDirection: "column", height: "100vh"}}>
+      <div
         style={{
-          position: "fixed",
-          top: 8,
-          right: 80,
-          zIndex: 10000,
-          padding: "6px 12px",
-          cursor: "pointer",
+          display: "flex",
+          gap: 8,
+          padding: 8,
+          alignItems: "center",
+          borderBottom: "1px solid #ccc",
         }}
       >
-        {movementLocked ? "Unlock movement" : "Lock movement"}
-      </button>
-      <Annotator
-        {...(annotatorProps)}
-        movementLocked={movementLocked}
-        onExit={(output) => {
-          console.log(output)
-        }}
-      />
-    </>
+        <button onClick={() => setMovementLocked((locked) => !locked)}>
+          {movementLocked ? "Unlock movement" : "Lock movement"}
+        </button>
+        <button onClick={() => console.log(annotatorRef.current?.getState())}>
+          Log state
+        </button>
+      </div>
+      <div style={{flex: 1, minHeight: 0, position: "relative"}}>
+        <Annotator
+          {...(annotatorProps)}
+          ref={annotatorRef}
+          movementLocked={movementLocked}
+        />
+      </div>
+    </div>
   )
 }

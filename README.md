@@ -14,25 +14,44 @@
 `npm install @starwit/react-image-annotate`
 
 ```javascript
-import React from "react";
+import React, { useRef } from "react";
 import ReactImageAnnotate from "@starwit/react-image-annotate";
 
-const App = () => (
-  <ReactImageAnnotate
-    regionClsList={["Alpha", "Beta", "Charlie", "Delta"]}
-    onExit={(output) => console.log(output)}
-    images={[
-      {
-        src: "https://placekitten.com/408/287",
-        name: "Image 1",
-        regions: []
-      }
-    ]}
-  />
-);
+const App = () => {
+  const annotatorRef = useRef(null);
+
+  return (
+    <>
+      <button onClick={() => console.log(annotatorRef.current?.getState())}>
+        Log state
+      </button>
+      <ReactImageAnnotate
+        ref={annotatorRef}
+        regionClsList={["Alpha", "Beta", "Charlie", "Delta"]}
+        images={[
+          {
+            src: "https://placekitten.com/408/287",
+            name: "Image 1",
+            regions: []
+          }
+        ]}
+      />
+    </>
+  );
+};
 
 export default App;
 
+```
+
+### Retrieving the annotation state
+
+The annotator does not render a header or expose a save/exit callback. Instead,
+pass a `ref` and call `getState()` to read the current state (with the undo
+history omitted) whenever you need it, e.g. from your own toolbar button.
+
+```javascript
+const output = annotatorRef.current.getState();
 ```
 
 To get the proper fonts, make sure to import the Inter UI or Roboto font, the
@@ -54,12 +73,9 @@ All of the following properties can be defined on the Annotator...
 | `regionClsList`      | `Array<string>`              | Allowed "classes" (mutually exclusive classifications) for regions.                                       |                    |
 | `regionColorList`    | `Array<string>`              | Custom color list for regions (matched by index to `regionClsList`). Default colors are used otherwise.   |                    |
 | `preselectCls`       | `string`                     | Class that should be preselected when creating a new region.                                              |                    |
-| `onExit`             | \*`MainLayoutState => any`   | Called when "Save" is clicked, with the current state (history omitted).                                  |                    |
+| `ref`                | `Ref`                        | Ref exposing `getState()`, which returns the current state (history omitted). See "Retrieving the annotation state" above. |          |
 | `enabledRegionProps` | `Array<string>`              | Which properties to show in the region edit popup ("name", "line-direction").                             | `["class", "name"]` |
 | `movementLocked`     | `boolean`                    | Reset zoom/pan to the default view and lock canvas movement (panning/zooming).                            | `false`            |
-| `hideHeader`         | `boolean`                    | Hide the entire header bar.                                                                               | `false`            |
-| `hideHeaderText`     | `boolean`                    | Hide the text/description in the header bar.                                                              | `false`            |
-| `hideSave`           | `boolean`                    | Hide the `Save` button from the header bar.                                                               | `false`            |
 | `userReducer`        | `(state, action) => state`   | User defined reducer that receives every event triggered within the annotator. See demo site for example. |                    |
 
 ## Developers

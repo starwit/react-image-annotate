@@ -23,10 +23,6 @@ export const defaultHotkeys = [
     binding: "p",
   },
   {
-    id: "save_and_exit_sample",
-    description: "Save and exit current sample",
-  },
-  {
     id: "delete_region",
     description: "Delete selected region",
     binding: "d",
@@ -65,12 +61,6 @@ export const useDispatchHotkeyHandlers = ({ dispatch }) => {
         dispatch({
           type: "SELECT_TOOL",
           selectedTool: "create-polygon",
-        })
-      },
-      save_and_exit_sample: () => {
-        dispatch({
-          type: "HEADER_BUTTON_CLICKED",
-          buttonName: "Save",
         })
       },
       delete_region: () => {
