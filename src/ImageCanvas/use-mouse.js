@@ -16,6 +16,7 @@ export default ({
   layoutParams,
   zoomWithPrimary,
   dragWithPrimary,
+  movementLocked,
   mat,
   onMouseMove,
   onMouseUp,
@@ -26,6 +27,7 @@ export default ({
   const prevMousePosition = useRef({ x: 0, y: 0 })
 
   const zoomIn = (direction, point) => {
+    if (movementLocked) return
     const [mx, my] = [point.x, point.y]
     let scale =
       typeof direction === "object" ? direction.to / mat.a : 1 + 0.2 * direction
@@ -52,14 +54,14 @@ export default ({
         mousePosition.current.y
       )
 
-      if (zoomWithPrimary && zoomStart) {
+      if (!movementLocked && zoomWithPrimary && zoomStart) {
         changeZoomEnd(projMouse)
       }
 
       const { iw, ih } = layoutParams.current
       onMouseMove({ x: projMouse.x / iw, y: projMouse.y / ih })
 
-      if (dragging) {
+      if (!movementLocked && dragging) {
         mat.translate(
           prevMousePosition.current.x - mousePosition.current.x,
           prevMousePosition.current.y - mousePosition.current.y
@@ -76,16 +78,20 @@ export default ({
         e.button === 1 ||
         e.button === 2 ||
         (e.button === 0 && dragWithPrimary)
-      )
+      ) {
+        if (movementLocked) return
         return changeDragging(true)
+      }
 
       const projMouse = mat.applyToPoint(
         mousePosition.current.x,
         mousePosition.current.y
       )
       if (zoomWithPrimary && e.button === 0) {
-        changeZoomStart(projMouse)
-        changeZoomEnd(projMouse)
+        if (!movementLocked) {
+          changeZoomStart(projMouse)
+          changeZoomEnd(projMouse)
+        }
         return
       }
       if (e.button === 0) {
@@ -105,7 +111,7 @@ export default ({
         mousePosition.current.x,
         mousePosition.current.y
       )
-      if (zoomStart) {
+      if (!movementLocked && zoomStart) {
         const zoomEnd = projMouse
         if (
           Math.abs(zoomStart.x - zoomEnd.x) < 10 &&
@@ -148,8 +154,10 @@ export default ({
         e.button === 1 ||
         e.button === 2 ||
         (e.button === 0 && dragWithPrimary)
-      )
+      ) {
+        if (movementLocked) return
         return changeDragging(false)
+      }
       if (e.button === 0) {
         const { iw, ih } = layoutParams.current
         onMouseUp({ x: projMouse.x / iw, y: projMouse.y / ih })

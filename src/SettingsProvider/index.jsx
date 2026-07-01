@@ -1,12 +1,10 @@
 // @flow
 
-import React, {createContext, useContext, useState} from "react"
+import {createContext, useContext, useState} from "react"
 import "../Localization/i18n.js"
 
 const defaultSettings = {
   showCrosshairs: false,
-  showHighlightBox: true,
-  wasdMode: true,
 }
 
 export const SettingsContext = createContext(defaultSettings)

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import { useMemo } from "react"
 import { HotKeys } from "react-hotkeys"
 
 export const defaultHotkeys = [
@@ -13,15 +13,6 @@ export const defaultHotkeys = [
     binding: "z",
   },
   {
-    id: "create_point",
-    description: "Create a point",
-  },
-  {
-    id: "create_bounding_box",
-    description: "Create a bounding box",
-    binding: "b",
-  },
-  {
     id: "pan_tool",
     description: "Select the Pan Tool",
     binding: "m",
@@ -32,26 +23,8 @@ export const defaultHotkeys = [
     binding: "p",
   },
   {
-    id: "create_pixel",
-    description: "Create a Pixel Mask",
-  },
-  {
-    id: "save_and_previous_sample",
-    description: "Save and go to previous sample",
-    binding: "ArrowLeft",
-  },
-  {
-    id: "save_and_next_sample",
-    description: "Save and go to next sample",
-    binding: "ArrowRight",
-  },
-  {
     id: "save_and_exit_sample",
     description: "Save and exit current sample",
-  },
-  {
-    id: "exit_sample",
-    description: "Exit sample without saving",
   },
   {
     id: "delete_region",
@@ -82,18 +55,6 @@ export const useDispatchHotkeyHandlers = ({ dispatch }) => {
           selectedTool: "zoom",
         })
       },
-      create_point: () => {
-        dispatch({
-          type: "SELECT_TOOL",
-          selectedTool: "create-point",
-        })
-      },
-      create_bounding_box: () => {
-        dispatch({
-          type: "SELECT_TOOL",
-          selectedTool: "create-box",
-        })
-      },
       pan_tool: () => {
         dispatch({
           type: "SELECT_TOOL",
@@ -104,24 +65,6 @@ export const useDispatchHotkeyHandlers = ({ dispatch }) => {
         dispatch({
           type: "SELECT_TOOL",
           selectedTool: "create-polygon",
-        })
-      },
-      create_pixel: () => {
-        dispatch({
-          type: "SELECT_TOOL",
-          selectedTool: "create-pixel",
-        })
-      },
-      save_and_previous_sample: () => {
-        dispatch({
-          type: "HEADER_BUTTON_CLICKED",
-          buttonName: "Prev",
-        })
-      },
-      save_and_next_sample: () => {
-        dispatch({
-          type: "HEADER_BUTTON_CLICKED",
-          buttonName: "Next",
         })
       },
       save_and_exit_sample: () => {
@@ -140,12 +83,6 @@ export const useDispatchHotkeyHandlers = ({ dispatch }) => {
           type: "RESTORE_HISTORY",
         })
       },
-      // TODO
-      // exit_sample: () => {
-      //   dispatch({
-      //     type: "",
-      //   })
-      // }
     }),
     [dispatch]
   )

@@ -1,6 +1,5 @@
 // @flow
 
-import React from "react"
 import Button from "@mui/material/Button"
 import { createTheme, styled, ThemeProvider } from "@mui/material/styles"
 import { useIconDictionary } from "../icon-dictionary.js"

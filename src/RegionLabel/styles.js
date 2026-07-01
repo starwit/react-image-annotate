@@ -50,7 +50,8 @@ export default {
   },
   nameField: {
     marginTop: 6,
-    width: "100%"
+    width: "100%",
+    minWidth: 200,
   }, 
   alert: {
     padding: "0px", 

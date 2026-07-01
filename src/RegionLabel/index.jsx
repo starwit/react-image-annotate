@@ -1,6 +1,6 @@
 // @flow
 
-import React, {memo, useRef} from "react"
+import {memo, useRef} from "react"
 import Paper from "@mui/material/Paper"
 import {createTheme, styled, ThemeProvider} from "@mui/material/styles"
 import styles from "./styles"
@@ -9,13 +9,10 @@ import Button from "@mui/material/Button"
 import TrashIcon from "@mui/icons-material/Delete"
 import CheckIcon from "@mui/icons-material/Check"
 import TextField from "@mui/material/TextField"
-import Select from "react-select"
-import CreatableSelect from "react-select/creatable"
 import {useTranslation} from "react-i18next"
 import Alert from '@mui/material/Alert';
-import { Box, FormControlLabel, InputLabel, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Box, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest} from '@mui/icons-material';
-import { FormControl, FormLabel } from "@mui/material"
 
 const theme = createTheme()
 const StyledPaper = styled(Paper)(({ theme }) => styles.regionInfo)
@@ -23,31 +20,20 @@ const StyledPaper = styled(Paper)(({ theme }) => styles.regionInfo)
 export const RegionLabel = ({
   region,
   editing,
-  allowedClasses,
-  allowedTags,
   onDelete,
   onChange,
   onClose,
   onOpen,
-  onRegionClassAdded,
   enabledProperties
 }) => {
-  const commentInputRef = useRef(null)
   const {t} = useTranslation();
-  const onCommentInputClick = (_) => {
-    // The TextField wraps the <input> tag with two divs
-    const commentInput = commentInputRef.current.children[0].children[0]
-      
-    if (commentInput) return commentInput.focus()
-  }
-  // I have no idea why the click is not working, so I copied the solution from above...
   const nameInputRef = useRef(null)
   const onNameInputClick = (_) => {
     const nameInput = nameInputRef.current.children[1].children[0]
 
     if (nameInput) return nameInput.focus()
   }
-  
+
   return (
     <ThemeProvider theme={theme}>
       <StyledPaper
@@ -55,7 +41,7 @@ export const RegionLabel = ({
         className={region.highlighted ? "highlighted" : ""}
       >
         {!editing ? (
-          <div>
+          <div style={{whiteSpace: "nowrap"}}>
             {region.cls && (
               <div className="name">
                 <div
@@ -63,15 +49,6 @@ export const RegionLabel = ({
                   style={{backgroundColor: region.color}}
                 />
                 <Typography variant="caption" fontWeight="bold">{region.cls}</Typography>
-              </div>
-            )}
-            {region.tags && (
-              <div className="tags">
-                {region.tags.map((t) => (
-                  <div key={t} className="tag">
-                    {t}
-                  </div>
-                ))}
               </div>
             )}
             {region.name && (
@@ -113,65 +90,6 @@ export const RegionLabel = ({
                 <TrashIcon style={{marginTop: -8, width: 16, height: 16}} />
               </IconButton>
             </div>
-            {enabledProperties.includes("class") && (allowedClasses || []).length > 0 && (
-              <div style={{marginTop: 6}}>
-                <CreatableSelect
-                  placeholder="Classification"
-                  onChange={(o, actionMeta) => {
-                    if (actionMeta.action === "create-option") {
-                      onRegionClassAdded(o.value)
-                    }
-                    return onChange({
-                      ...(region),
-                      cls: o.value,
-                    })
-                  }}
-                  value={
-                    region.cls ? {label: region.cls, value: region.cls} : null
-                  }
-                  options={
-                    allowedClasses.map((c) => ({value: c, label: c}))
-                  }
-                />
-              </div>
-            )}
-            {enabledProperties.includes("tags") && (allowedTags || []).length > 0 && (
-              <div style={{marginTop: 4}}>
-                <Select
-                  onChange={(newTags) =>
-                    onChange({
-                      ...(region),
-                      tags: newTags.map((t) => t.value),
-                    })
-                  }
-                  placeholder="Tags"
-                  value={(region.tags || []).map((c) => ({
-                    label: c,
-                    value: c,
-                  }))}
-                  isMulti
-                  options={
-                    allowedTags.map((c) => ({value: c, label: c}))
-                  }
-                />
-              </div>
-            )}
-            {enabledProperties.includes("comment") && (
-              <TextField
-                InputProps={{
-                  sx: styles.commentBox,
-                }}
-                fullWidth
-                multiline
-                rows={3}
-                ref={commentInputRef}
-                onClick={onCommentInputClick}
-                value={region.comment || ""}
-                onChange={(event) =>
-                  onChange({...(region), comment: event.target.value})
-                }
-              />
-            )}
             {enabledProperties.includes("name") && (
               <TextField
                 id="nameField"
@@ -213,7 +131,7 @@ export const RegionLabel = ({
             {onClose && (
               <div style={styles.div}>
                   <div>
-                    {region?.falseInput ? 
+                    {region?.falseInput ?
                       <Alert style={styles.alert} severity="error">{t("region.no.name")}</Alert> : <></>
                     }
                   </div>
@@ -226,7 +144,7 @@ export const RegionLabel = ({
                   <CheckIcon />
                 </Button>
               </div>
-            )}         
+            )}
           </div>
         )}
       </StyledPaper>

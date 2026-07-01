@@ -1,8 +1,7 @@
 // @flow weak
 
-import React from "react"
 import Paper from "@mui/material/Paper"
-import DefaultRegionLabel from "../RegionLabel"
+import RegionLabel from "../RegionLabel"
 import LockIcon from "@mui/icons-material/Lock"
 
 const copyWithout = (obj, ...args) => {
@@ -18,28 +17,25 @@ export const RegionTags = ({
   projectRegionBox,
   mouseEvents,
   regionClsList,
-  regionTagList,
   onBeginRegionEdit,
   onChangeRegion,
   onCloseRegionEdit,
   onDeleteRegion,
   layoutParams,
   imageSrc,
-  RegionEditLabel,
-  onRegionClassAdded,
   enabledRegionProps,
 }) => {
-  const RegionLabel =
-    RegionEditLabel != null ? RegionEditLabel : DefaultRegionLabel
   return regions
     .filter((r) => r.visible || r.visible === undefined)
     .map((region) => {
       const pbox = projectRegionBox(region)
-      let margin = 8
-      if (region.highlighted && region.type === "box") margin += 6
+      const margin = 8
+      const labelBoxWidth = region.editingLabels && !region.locked ? 340 : 160
       const labelBoxHeight =
-        region.editingLabels && !region.locked ? 170 : region.tags ? 60 : 50
+        region.editingLabels && !region.locked ? 200 : 50
       const displayOnTop = pbox.y > labelBoxHeight
+      const canvasWidth = layoutParams?.current?.canvasWidth
+      const overflowsRight = canvasWidth && pbox.x + labelBoxWidth > canvasWidth
 
       const coords = displayOnTop
         ? {
@@ -86,7 +82,6 @@ export const RegionTags = ({
             position: "absolute",
             ...coords,
             zIndex: 10 + (region.editingLabels ? 5 : 0),
-            width: 200,
           }}
           onMouseDown={(e) => e.preventDefault()}
           onMouseUp={(e) => e.preventDefault()}
@@ -102,7 +97,7 @@ export const RegionTags = ({
             style={{
               position: "absolute",
               zIndex: 20,
-              left: 0,
+              ...(overflowsRight ? {right: 0} : {left: 0}),
               ...(displayOnTop ? {bottom: 0} : {top: 0}),
             }}
             {...(!region.editingLabels
@@ -111,7 +106,6 @@ export const RegionTags = ({
           >
             <RegionLabel
               allowedClasses={regionClsList}
-              allowedTags={regionTagList}
               onOpen={onBeginRegionEdit}
               onChange={onChangeRegion}
               onClose={onCloseRegionEdit}
@@ -120,7 +114,6 @@ export const RegionTags = ({
               region={region}
               regions={regions}
               imageSrc={imageSrc}
-              onRegionClassAdded={onRegionClassAdded}
               enabledProperties={enabledRegionProps}
             />
           </div>

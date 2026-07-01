@@ -1,6 +1,6 @@
 // @flow
 
-import React, {memo} from "react"
+import {memo} from "react"
 import {createTheme, ThemeProvider} from "@mui/material/styles"
 import SidebarBox from "../workspace/SidebarBox"
 

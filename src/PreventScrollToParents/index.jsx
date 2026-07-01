@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState } from "react"
+import { useState } from "react"
 import { RemoveScroll } from "react-remove-scroll"
 import { createTheme, styled, ThemeProvider } from "@mui/material/styles"
 import useEventCallback from "use-event-callback"

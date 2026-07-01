@@ -1,5 +1,4 @@
 // @flow
-import React from "react"
 import {createRoot} from "react-dom/client"
 import Theme from "./Theme"
 import DemoSite from "./DemoSite"

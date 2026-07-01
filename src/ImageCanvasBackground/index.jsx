@@ -1,9 +1,8 @@
 // @flow weak
 
-import React, {useMemo, useRef, useState} from "react"
+import {useMemo, useRef, useState} from "react"
 import {createTheme, styled, ThemeProvider} from "@mui/material/styles"
 import useEventCallback from "use-event-callback"
-import {useSettings} from "../SettingsProvider"
 import {useTranslation} from "react-i18next";
 
 const theme = createTheme()
