@@ -21,7 +21,7 @@ export default () => {
         <button onClick={() => setMovementLocked((locked) => !locked)}>
           {movementLocked ? "Unlock movement" : "Lock movement"}
         </button>
-        <button onClick={() => console.log(annotatorRef.current?.getState())}>
+        <button onClick={() => console.log(annotatorRef.current?.getRegions())}>
           Log state
         </button>
       </div>

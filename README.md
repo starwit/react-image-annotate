@@ -22,19 +22,17 @@ const App = () => {
 
   return (
     <>
-      <button onClick={() => console.log(annotatorRef.current?.getState())}>
+      <button onClick={() => console.log(annotatorRef.current?.getRegions())}>
         Log state
       </button>
       <ReactImageAnnotate
         ref={annotatorRef}
         regionClsList={["Alpha", "Beta", "Charlie", "Delta"]}
-        images={[
-          {
-            src: "https://placekitten.com/408/287",
-            name: "Image 1",
-            regions: []
-          }
-        ]}
+        image={{
+          src: "https://placekitten.com/408/287",
+          name: "Image 1",
+          regions: []
+        }}
       />
     </>
   );
@@ -47,11 +45,13 @@ export default App;
 ### Retrieving the annotation state
 
 The annotator does not render a header or expose a save/exit callback. Instead,
-pass a `ref` and call `getState()` to read the current state (with the undo
-history omitted) whenever you need it, e.g. from your own toolbar button.
+pass a `ref` and call `getRegions()` to read the current annotations whenever you
+need them, e.g. from your own toolbar button. It returns the list of drawn
+regions:
 
 ```javascript
-const output = annotatorRef.current.getState();
+const regions = annotatorRef.current.getRegions();
+// regions: Array<Region> — the polygons/lines drawn on the image
 ```
 
 To get the proper fonts, make sure to import the Inter UI or Roboto font, the
@@ -67,13 +67,12 @@ All of the following properties can be defined on the Annotator...
 
 | Prop                 | Type (\* = required)         | Description                                                                                                | Default            |
 | -------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------ |
-| `images`             | `Array<Image>`               | Array of images to load into the annotator.                                                               |                    |
-| `selectedImage`      | `number \| string`           | Index or `src` URL of the initially selected image.                                                       | First image.       |
+| `image`              | `Image` \*                   | The image to annotate.                                                                                     |                    |
 | `selectedTool`       | `string`                     | Initially selected tool. e.g. "select", "pan", "zoom", "create-polygon", "create-line".                   | `"select"`         |
 | `regionClsList`      | `Array<string>`              | Allowed "classes" (mutually exclusive classifications) for regions.                                       |                    |
 | `regionColorList`    | `Array<string>`              | Custom color list for regions (matched by index to `regionClsList`). Default colors are used otherwise.   |                    |
 | `preselectCls`       | `string`                     | Class that should be preselected when creating a new region.                                              |                    |
-| `ref`                | `Ref`                        | Ref exposing `getState()`, which returns the current state (history omitted). See "Retrieving the annotation state" above. |          |
+| `ref`                | `Ref`                        | Ref exposing `getRegions()`, which returns the current array of regions. See "Retrieving the annotation state" above. |          |
 | `enabledRegionProps` | `Array<string>`              | Which properties to show in the region edit popup ("name", "line-direction").                             | `["class", "name"]` |
 | `movementLocked`     | `boolean`                    | Reset zoom/pan to the default view and lock canvas movement (panning/zooming).                            | `false`            |
 | `userReducer`        | `(state, action) => state`   | User defined reducer that receives every event triggered within the annotator. See demo site for example. |                    |

@@ -8,7 +8,6 @@ import HistorySidebarBox from "../HistorySidebarBox"
 import ImageCanvas from "../ImageCanvas"
 import RegionSelector from "../RegionSelectorSidebarBox"
 import Workspace from "../workspace/Workspace"
-import getActiveImage from "../Annotator/reducers/get-active-image"
 import iconDictionary from "./icon-dictionary"
 import styles from "./styles"
 import { useDispatchHotkeyHandlers } from "../ShortcutsManager"
@@ -54,7 +53,7 @@ export const MainLayout = ({
     return fn
   }
 
-  const { activeImage } = getActiveImage(state)
+  const activeImage = state.image
 
   useKey("Escape", () => dispatch({ type: "CANCEL" }))
 
@@ -78,7 +77,6 @@ export const MainLayout = ({
         settings.showCrosshairs &&
         !["select", "pan", "zoom"].includes(state.selectedTool)
       }
-      key={state.selectedImage}
       regionClsList={state.regionClsList}
       regions={activeImage.regions || []}
       imageSrc={activeImage.src}

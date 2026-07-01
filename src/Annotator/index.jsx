@@ -1,6 +1,6 @@
 // @flow
 
-import {useEffect, useImperativeHandle, useReducer} from "react"
+import {useImperativeHandle, useReducer} from "react"
 import {produce} from "immer"
 
 import MainLayout from "../MainLayout"
@@ -15,8 +15,7 @@ import {useTranslation} from "react-i18next"
 
 
 export const Annotator = ({
-  images,
-  selectedImage = images && images.length > 0 ? 0 : undefined,
+  image,
   selectedTool = "select",
   regionClsList = [],
   regionColorList = [],
@@ -26,10 +25,6 @@ export const Annotator = ({
   userReducer,
   ref
 }) => {
-  if (typeof selectedImage === "string") {
-    selectedImage = (images || []).findIndex((img) => img.src === selectedImage)
-    if (selectedImage === -1) selectedImage = undefined
-  }
   const {t} = useTranslation();
   const [state, dispatchToReducer] = useReducer(
     historyHandler(
@@ -47,29 +42,19 @@ export const Annotator = ({
       preselectCls,
       history: [],
       enabledRegionProps,
-      selectedImage,
-      images,
+      image,
     }, _ => _)
   )
 
   useImperativeHandle(
     ref,
     () => ({
-      getState: () => produce(state, (s) => {delete s.history}),
+      getRegions: () => state.image?.regions ?? [],
     }),
     [state]
   )
 
-  useEffect(() => {
-    if (selectedImage === undefined) return
-    dispatchToReducer({
-      type: "SELECT_IMAGE",
-      imageIndex: selectedImage,
-      image: state.images[selectedImage]
-    })
-  }, [selectedImage, state.images])
-
-  if (!images)
+  if (!image)
     return t("error.image")
 
   return (
@@ -85,8 +70,7 @@ export const Annotator = ({
 }
 
 Annotator.propTypes = {
-  images: PropTypes.array,
-  selectedImage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  image: PropTypes.object,
   selectedTool: PropTypes.string,
   regionClsList: PropTypes.arrayOf(PropTypes.string),
   regionColorList: PropTypes.arrayOf(PropTypes.string),
