@@ -95,7 +95,7 @@ export const ClassSelectionMenu = ({
             <DashSep />
           </LabelContainer>
         ))}
-        <Box pb={2} />
+        <Box sx={{pb: 2}} />
       </SidebarBoxContainer>
     </ThemeProvider>
   )
