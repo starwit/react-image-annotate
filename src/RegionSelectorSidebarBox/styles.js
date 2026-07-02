@@ -21,6 +21,25 @@ export default {
       },
     },
   },
+  buttonRow: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 4,
+    padding: 4,
+    borderBottom: `1px solid ${grey[200]}`,
+    "& .batchButton": {
+      flex: 1,
+      fontSize: 11,
+      fontWeight: "bold",
+      color: grey[700],
+      textTransform: "none",
+      minWidth: 0,
+      "& .MuiButton-startIcon > svg": {
+        width: 16,
+        height: 16,
+      },
+    },
+  },
   row: {
     padding: 4,
     cursor: "pointer",

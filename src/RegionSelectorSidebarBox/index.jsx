@@ -1,11 +1,12 @@
 // @flow
 
-import {memo} from "react"
+import {memo, useState} from "react"
 import SidebarBoxContainer from "../SidebarBoxContainer"
 import {createTheme, styled, ThemeProvider} from "@mui/material/styles"
 import {grey} from "@mui/material/colors"
 import RegionIcon from "@mui/icons-material/PictureInPicture"
 import Grid from "@mui/material/Grid"
+import Button from "@mui/material/Button"
 import TrashIcon from "@mui/icons-material/Delete"
 import LockIcon from "@mui/icons-material/Lock"
 import UnlockIcon from "@mui/icons-material/LockOpen"
@@ -22,6 +23,7 @@ const theme = createTheme()
 
 const ChipSpan = styled('span')(() => styles.chip)
 const RowDiv = styled('div')(() => styles.row)
+const ButtonRowDiv = styled('div')(() => styles.buttonRow)
 const ContainerDiv = styled('div')(() => styles.container)
 
 const Chip = ({color, text}) => {
@@ -161,6 +163,21 @@ export const RegionSelectorSidebarBox = ({
 
   const {t} = useTranslation();
 
+  const [allLocked, setAllLocked] = useState(false)
+  const [allHidden, setAllHidden] = useState(false)
+
+  const toggleLockAll = () => {
+    const next = !allLocked
+    setAllLocked(next)
+    regions.forEach((r) => onChangeRegion({...r, locked: next}))
+  }
+
+  const toggleHideAll = () => {
+    const next = !allHidden
+    setAllHidden(next)
+    regions.forEach((r) => onChangeRegion({...r, visible: !next}))
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <SidebarBoxContainer
@@ -171,6 +188,24 @@ export const RegionSelectorSidebarBox = ({
         noScroll={true}
       >
         <ContainerDiv>
+          <ButtonRowDiv>
+            <Button
+              className="batchButton"
+              size="small"
+              onClick={toggleLockAll}
+              startIcon={allLocked ? <UnlockIcon /> : <LockIcon />}
+            >
+              {allLocked ? t("regions.unlock.all") : t("regions.lock.all")}
+            </Button>
+            <Button
+              className="batchButton"
+              size="small"
+              onClick={toggleHideAll}
+              startIcon={allHidden ? <VisibleIcon /> : <VisibleOffIcon />}
+            >
+              {allHidden ? t("regions.show.all") : t("regions.hide.all")}
+            </Button>
+          </ButtonRowDiv>
           {regions.map((r, i) => (
             <MemoRow
               key={r.id}
