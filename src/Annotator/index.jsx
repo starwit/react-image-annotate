@@ -17,8 +17,7 @@ import {useTranslation} from "react-i18next"
 export const Annotator = ({
   image,
   selectedTool = "select",
-  regionClsList = [],
-  regionColorList = [],
+  classifications = [],
   preselectCls = null,
   enabledRegionProps = ["class", "name"],
   movementLocked = false,
@@ -37,8 +36,7 @@ export const Annotator = ({
     produce({
       selectedTool,
       mode: null,
-      regionClsList,
-      regionColorList,
+      classifications,
       preselectCls,
       history: [],
       enabledRegionProps,
@@ -72,8 +70,13 @@ export const Annotator = ({
 Annotator.propTypes = {
   image: PropTypes.object,
   selectedTool: PropTypes.string,
-  regionClsList: PropTypes.arrayOf(PropTypes.string),
-  regionColorList: PropTypes.arrayOf(PropTypes.string),
+  classifications: PropTypes.arrayOf(
+    PropTypes.shape({
+      cls: PropTypes.string.isRequired,
+      displayName: PropTypes.string,
+      color: PropTypes.string,
+    })
+  ),
   preselectCls: PropTypes.string,
   enabledRegionProps: PropTypes.arrayOf(PropTypes.string),
   movementLocked: PropTypes.bool,

@@ -5,7 +5,6 @@ import * as muiColors from "@mui/material/colors"
 import SidebarBoxContainer from "../SidebarBoxContainer"
 import colors from "../colors"
 import BallotIcon from "@mui/icons-material/Ballot"
-import capitalize from "lodash/capitalize"
 import classnames from "classnames"
 import {useTranslation} from "react-i18next"
 
@@ -56,8 +55,7 @@ const Number = styled("div")(({theme}) => ({
 export const ClassSelectionMenu = ({
   selectedCls,
   preselectCls,
-  regionClsList,
-  regionColorList,
+  classifications,
   onSelectCls,
 }) => {styled
 
@@ -66,7 +64,7 @@ export const ClassSelectionMenu = ({
       if (preselectCls != null) {
         onSelectCls(preselectCls);
       } else {
-        onSelectCls(regionClsList[0]);
+        onSelectCls(classifications[0]?.cls);
       }
     }
   }, [])
@@ -82,17 +80,17 @@ export const ClassSelectionMenu = ({
         expandedByDefault
         noScroll={true}
       >
-        {regionClsList.map((label, index) => (
+        {classifications.map(({cls, displayName, color}, index) => (
           <LabelContainer
-            key={"regionCls" + label}
-            className={classnames({selected: label === selectedCls})}
-            onClick={() => onSelectCls(label)}
+            key={"regionCls" + cls}
+            className={classnames({selected: cls === selectedCls})}
+            onClick={() => onSelectCls(cls)}
           >
             <Circle
-              style={{backgroundColor: index < regionColorList.length ? regionColorList[index] : colors[index % colors.length]}}
+              style={{backgroundColor: color || colors[index % colors.length]}}
             />
-            <Label className={classnames({selected: label === selectedCls})}>
-              {capitalize(label)}
+            <Label className={classnames({selected: cls === selectedCls})}>
+              {displayName ?? cls}
             </Label>
             <DashSep />
           </LabelContainer>

@@ -27,7 +27,12 @@ const App = () => {
       </button>
       <ReactImageAnnotate
         ref={annotatorRef}
-        regionClsList={["Alpha", "Beta", "Charlie", "Delta"]}
+        classifications={[
+          {cls: "alpha", displayName: "Alpha", color: "#00da86"},
+          {cls: "beta", displayName: "Beta", color: "#1e87e9"},
+          {cls: "charlie", displayName: "Charlie"},
+          {cls: "delta", displayName: "Delta"},
+        ]}
         image={{
           src: "https://placekitten.com/408/287",
           name: "Image 1",
@@ -69,9 +74,8 @@ All of the following properties can be defined on the Annotator...
 | -------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------ |
 | `image`              | `Image` \*                   | The image to annotate.                                                                                     |                    |
 | `selectedTool`       | `string`                     | Initially selected tool. e.g. "select", "pan", "zoom", "create-polygon", "create-line".                   | `"select"`         |
-| `regionClsList`      | `Array<string>`              | Allowed "classes" (mutually exclusive classifications) for regions.                                       |                    |
-| `regionColorList`    | `Array<string>`              | Custom color list for regions (matched by index to `regionClsList`). Default colors are used otherwise.   |                    |
-| `preselectCls`       | `string`                     | Class that should be preselected when creating a new region.                                              |                    |
+| `classifications`    | `Array<Classification>`      | Allowed classifications (mutually exclusive) for regions. Each is `{ cls, displayName?, color? }`, where `cls` is the technical identifier (source of truth, e.g. for DB references), `displayName` is the human-readable label shown in the UI (falls back to `cls`), and `color` is optional (default palette is used otherwise). |          |
+| `preselectCls`       | `string`                     | `cls` that should be preselected when creating a new region.                                              |                    |
 | `ref`                | `Ref`                        | Ref exposing `getRegions()`, which returns the current array of regions. See "Retrieving the annotation state" above. |          |
 | `enabledRegionProps` | `Array<string>`              | Which properties to show in the region edit popup ("name", "line-direction").                             | `["class", "name"]` |
 | `movementLocked`     | `boolean`                    | Reset zoom/pan to the default view and lock canvas movement (panning/zooming).                            | `false`            |

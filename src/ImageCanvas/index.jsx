@@ -29,7 +29,7 @@ export const ImageCanvas = ({
   zoomWithPrimary = false,
   createWithPrimary = false,
   movementLocked = false,
-  regionClsList,
+  classifications,
   showCrosshairs,
   onImageLoadedDispatch,
   onChangeRegion,
@@ -209,7 +209,7 @@ export const ImageCanvas = ({
               regions={regions}
               projectRegionBox={projectRegionBox}
               mouseEvents={mouseEvents}
-              regionClsList={regionClsList}
+              classifications={classifications}
               onBeginRegionEdit={onBeginRegionEdit}
               onChangeRegion={onChangeRegion}
               onCloseRegionEdit={onCloseRegionEdit}
@@ -278,7 +278,7 @@ ImageCanvas.propTypes = {
   createWithPrimary: PropTypes.bool,
   movementLocked: PropTypes.bool,
   showCrosshairs: PropTypes.bool,
-  regionClsList: PropTypes.arrayOf(PropTypes.string),
+  classifications: PropTypes.arrayOf(PropTypes.object),
   enabledRegionProps: PropTypes.arrayOf(PropTypes.string),
   onChangeRegion: PropTypes.func.isRequired,
   onBeginRegionEdit: PropTypes.func.isRequired,

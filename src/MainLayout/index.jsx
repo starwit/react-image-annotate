@@ -77,7 +77,7 @@ export const MainLayout = ({
         settings.showCrosshairs &&
         !["select", "pan", "zoom"].includes(state.selectedTool)
       }
-      regionClsList={state.regionClsList}
+      classifications={state.classifications}
       regions={activeImage.regions || []}
       imageSrc={activeImage.src}
       createWithPrimary={state.selectedTool.includes("create")}
@@ -126,13 +126,12 @@ export const MainLayout = ({
         <Workspace
           iconDictionary={iconDictionary}
           rightSidebarItems={[
-            state.regionClsList && (
+            state.classifications && (
               <ClassSelectionMenu
                 key="ClassSelectionMenu"
                 selectedCls={state.selectedCls}
                 preselectCls={state.preselectCls}
-                regionClsList={state.regionClsList}
-                regionColorList={state.regionColorList}
+                classifications={state.classifications}
                 onSelectCls={action("SELECT_CLASSIFICATION", "cls")}
               />
             ),

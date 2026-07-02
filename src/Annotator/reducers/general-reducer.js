@@ -6,6 +6,14 @@ import i18next from "i18next"
 
 const getRandomId = () => Math.random().toString().split(".")[1]
 
+// Resolve the color for a classification by its technical `cls`. Falls back to
+// the default color palette when no explicit color is configured.
+const getClsColor = (classifications, cls) => {
+  const index = (classifications || []).findIndex((c) => c.cls === cls)
+  if (index === -1) return null
+  return classifications[index].color || colors[index % colors.length]
+}
+
 export default (state, action) => {
   // Throttle certain actions
   if (action.type === "MOUSE_MOVE") {
@@ -78,10 +86,10 @@ export default (state, action) => {
       const oldRegion = activeImage.regions[regionIndex]
       if (oldRegion.cls !== action.region.cls) {
         state = saveToHistory(state, "Change Region Classification")
-        const clsIndex = state.regionClsList.indexOf(action.region.cls)
-        if (clsIndex !== -1) {
+        const clsColor = getClsColor(state.classifications, action.region.cls)
+        if (clsColor !== null) {
           state = produce(state, s => {s.selectedCls = action.region.cls})
-          action.region.color = clsIndex < state.regionColorList.length ? state.regionColorList[clsIndex] : colors[clsIndex % colors.length]
+          action.region.color = clsColor
         }
       }
       return produce(
@@ -232,9 +240,9 @@ export default (state, action) => {
       let defaultRegionCls = state.selectedCls,
         defaultRegionColor = "#ff0000"
 
-      const clsIndex = (state.regionClsList || []).indexOf(defaultRegionCls)
-      if (clsIndex !== -1) {
-        defaultRegionColor = clsIndex < state.regionColorList.length ? state.regionColorList[clsIndex] : colors[clsIndex % colors.length]
+      const clsColor = getClsColor(state.classifications, defaultRegionCls)
+      if (clsColor !== null) {
+        defaultRegionColor = clsColor
       }
 
       switch (state.selectedTool) {
