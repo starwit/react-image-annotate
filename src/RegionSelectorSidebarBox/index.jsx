@@ -49,7 +49,7 @@ const RowLayout = ({
       onClick={onClick}
       className={classnames({header, highlighted})}
     >
-      <Grid container alignItems="center">
+      <Grid container sx={{alignItems: "center"}}>
         <Grid size={2}>
           <div style={{textAlign: "right", paddingRight: 10}}>{order}</div>
         </Grid>
