@@ -131,10 +131,9 @@ export default (state, action) => {
         return produce(
           modifyRegion(polygon, {
             points: polygon.points.slice(0, -1),
-            editingLabels: true,
             open: false,
           }),
-          s => {s.mode = null}
+          s => {s.mode = {mode: "CLOSE_POLYGON", regionId: polygon.id}}
         )
       } else {
         state = saveToHistory(state, i18next.t("move.polypoint"))
@@ -319,7 +318,8 @@ export default (state, action) => {
         case "MOVE_POLYGON_POINT": {
           return {...state, mode: null}
         }
-        case "MOVE_LINE_POINT": {
+        case "MOVE_LINE_POINT":
+        case "CLOSE_POLYGON": {
           return produce(
             modifyRegion(state.mode.regionId, { editingLabels: true }),
             s => {s.mode = null}
