@@ -16,7 +16,7 @@ export const RegionTags = ({
   regions,
   projectRegionBox,
   mouseEvents,
-  regionClsList,
+  classifications,
   onBeginRegionEdit,
   onChangeRegion,
   onCloseRegionEdit,
@@ -105,7 +105,7 @@ export const RegionTags = ({
               : {})}
           >
             <RegionLabel
-              allowedClasses={regionClsList}
+              classifications={classifications}
               onOpen={onBeginRegionEdit}
               onChange={onChangeRegion}
               onClose={onCloseRegionEdit}

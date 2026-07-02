@@ -24,9 +24,15 @@ export const RegionLabel = ({
   onChange,
   onClose,
   onOpen,
-  enabledProperties
+  enabledProperties,
+  classifications
 }) => {
   const {t} = useTranslation();
+  // `cls` is the technical source of truth; resolve its human-readable label
+  // for display only, falling back to the raw `cls` when none is configured.
+  const clsDisplayName =
+    (classifications || []).find((c) => c.cls === region.cls)?.displayName ??
+    region.cls
   const nameInputRef = useRef(null)
   const onNameInputClick = (_) => {
     const nameInput = nameInputRef.current.children[1].children[0]
@@ -48,7 +54,7 @@ export const RegionLabel = ({
                   className="circle"
                   style={{backgroundColor: region.color}}
                 />
-                <Typography variant="caption" fontWeight="bold">{region.cls}</Typography>
+                <Typography variant="caption" fontWeight="bold">{clsDisplayName}</Typography>
               </div>
             )}
             {region.name && (

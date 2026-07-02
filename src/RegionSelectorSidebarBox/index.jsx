@@ -6,8 +6,6 @@ import {createTheme, styled, ThemeProvider} from "@mui/material/styles"
 import {grey} from "@mui/material/colors"
 import RegionIcon from "@mui/icons-material/PictureInPicture"
 import Grid from "@mui/material/Grid"
-import ReorderIcon from "@mui/icons-material/SwapVert"
-import PieChartIcon from "@mui/icons-material/PieChart"
 import TrashIcon from "@mui/icons-material/Delete"
 import LockIcon from "@mui/icons-material/Lock"
 import UnlockIcon from "@mui/icons-material/LockOpen"
@@ -25,11 +23,6 @@ const theme = createTheme()
 const ChipSpan = styled('span')(() => styles.chip)
 const RowDiv = styled('div')(() => styles.row)
 const ContainerDiv = styled('div')(() => styles.container)
-const HeaderSep = styled("div")(({theme}) => ({
-  borderTop: `1px solid ${grey[200]}`,
-  marginTop: 2,
-  marginBottom: 2,
-}))
 
 const Chip = ({color, text}) => {
   return (
@@ -79,24 +72,6 @@ const RowLayout = ({
     </RowDiv>
   )
 }
-
-const RowHeader = () => {
-  const {t} = useTranslation();
-  return (
-    <RowLayout
-      header
-      highlighted={false}
-      order={<ReorderIcon className="icon" />}
-      name={<div style={{paddingLeft: 10}}>{t("desc.class")}</div>}
-      area={<PieChartIcon className="icon" />}
-      trash={<TrashIcon className="icon" />}
-      lock={<LockIcon className="icon" />}
-      visible={<VisibleIcon className="icon" />}
-    />
-  )
-}
-
-const MemoRowHeader = memo(RowHeader)
 
 const Row = ({
   region: r,
@@ -196,8 +171,6 @@ export const RegionSelectorSidebarBox = ({
         noScroll={true}
       >
         <ContainerDiv>
-          <MemoRowHeader />
-          <HeaderSep />
           {regions.map((r, i) => (
             <MemoRow
               key={r.id}

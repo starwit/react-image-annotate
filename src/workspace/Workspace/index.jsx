@@ -1,5 +1,4 @@
 import {createTheme, styled, ThemeProvider} from "@mui/material/styles"
-import Header from "../Header"
 import RightSidebar from "../RightSidebar"
 import WorkContainer from "../WorkContainer"
 import {IconDictionaryContext} from "../icon-dictionary.js"
@@ -28,13 +27,8 @@ const SidebarsAndContent = styled("div")(({theme}) => ({
 
 export default ({
   style = emptyObj,
-  headerItems = emptyAr,
   rightSidebarItems = emptyAr,
-  onClickHeaderItem,
-  headerLeftSide = null,
   iconDictionary = emptyObj,
-  hideHeader = false,
-  hideHeaderText = false,
   children,
 }) => {
   const [sidebarAndContentRef, sidebarAndContent] = useMeasure()
@@ -42,14 +36,6 @@ export default ({
     <ThemeProvider theme={theme}>
       <IconDictionaryContext.Provider value={iconDictionary}>
         <Container style={style}>
-          {!hideHeader && (
-            <Header
-              hideHeaderText={hideHeaderText}
-              leftSideContent={headerLeftSide}
-              onClickItem={onClickHeaderItem}
-              items={headerItems}
-            />
-          )}
           <SidebarsAndContent ref={sidebarAndContentRef}>
             <WorkContainer>{children}</WorkContainer>
             {rightSidebarItems.length === 0 ? null : (

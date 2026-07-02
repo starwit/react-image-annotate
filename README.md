@@ -14,25 +14,49 @@
 `npm install @starwit/react-image-annotate`
 
 ```javascript
-import React from "react";
+import React, { useRef } from "react";
 import ReactImageAnnotate from "@starwit/react-image-annotate";
 
-const App = () => (
-  <ReactImageAnnotate
-    regionClsList={["Alpha", "Beta", "Charlie", "Delta"]}
-    onExit={(output) => console.log(output)}
-    images={[
-      {
-        src: "https://placekitten.com/408/287",
-        name: "Image 1",
-        regions: []
-      }
-    ]}
-  />
-);
+const App = () => {
+  const annotatorRef = useRef(null);
+
+  return (
+    <>
+      <button onClick={() => console.log(annotatorRef.current?.getRegions())}>
+        Log state
+      </button>
+      <ReactImageAnnotate
+        ref={annotatorRef}
+        classifications={[
+          {cls: "alpha", displayName: "Alpha", color: "#00da86", tool: "create-line"},
+          {cls: "beta", displayName: "Beta", color: "#1e87e9", tool: "create-polygon"},
+          {cls: "charlie", displayName: "Charlie"},
+          {cls: "delta", displayName: "Delta"},
+        ]}
+        image={{
+          src: "https://placekitten.com/408/287",
+          name: "Image 1",
+          regions: []
+        }}
+      />
+    </>
+  );
+};
 
 export default App;
 
+```
+
+### Retrieving the annotation state
+
+The annotator does not render a header or expose a save/exit callback. Instead,
+pass a `ref` and call `getRegions()` to read the current annotations whenever you
+need them, e.g. from your own toolbar button. It returns the list of drawn
+regions:
+
+```javascript
+const regions = annotatorRef.current.getRegions();
+// regions: Array<Region> — the polygons/lines drawn on the image
 ```
 
 To get the proper fonts, make sure to import the Inter UI or Roboto font, the
@@ -48,19 +72,14 @@ All of the following properties can be defined on the Annotator...
 
 | Prop                 | Type (\* = required)         | Description                                                                                                | Default            |
 | -------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------ |
-| `images`             | `Array<Image>`               | Array of images to load into the annotator.                                                               |                    |
-| `selectedImage`      | `number \| string`           | Index or `src` URL of the initially selected image.                                                       | First image.       |
+| `image`              | `Image` \*                   | The image to annotate.                                                                                     |                    |
 | `selectedTool`       | `string`                     | Initially selected tool. e.g. "select", "pan", "zoom", "create-polygon", "create-line".                   | `"select"`         |
-| `regionClsList`      | `Array<string>`              | Allowed "classes" (mutually exclusive classifications) for regions.                                       |                    |
-| `regionColorList`    | `Array<string>`              | Custom color list for regions (matched by index to `regionClsList`). Default colors are used otherwise.   |                    |
-| `preselectCls`       | `string`                     | Class that should be preselected when creating a new region.                                              |                    |
-| `onExit`             | \*`MainLayoutState => any`   | Called when "Save" is clicked, with the current state (history omitted).                                  |                    |
+| `classifications`    | `Array<Classification>`      | Allowed classifications (mutually exclusive) for regions. Each is `{ cls, displayName?, color?, tool? }`, where `cls` is the technical identifier (source of truth, e.g. for DB references), `displayName` is the human-readable label shown in the UI (falls back to `cls`), `color` is optional (default palette is used otherwise), and `tool` sets the tool (e.g. `"create-line"`, `"create-polygon"`) to activate when the classification is selected. |          |
+| `preselectCls`       | `string`                     | `cls` that should be preselected when creating a new region.                                              |                    |
+| `ref`                | `Ref`                        | Ref exposing `getRegions()`, which returns the current array of regions. See "Retrieving the annotation state" above. |          |
 | `enabledRegionProps` | `Array<string>`              | Which properties to show in the region edit popup ("name", "line-direction").                             | `["class", "name"]` |
 | `movementLocked`     | `boolean`                    | Reset zoom/pan to the default view and lock canvas movement (panning/zooming).                            | `false`            |
-| `hideHeader`         | `boolean`                    | Hide the entire header bar.                                                                               | `false`            |
-| `hideHeaderText`     | `boolean`                    | Hide the text/description in the header bar.                                                              | `false`            |
-| `hideSave`           | `boolean`                    | Hide the `Save` button from the header bar.                                                               | `false`            |
-| `userReducer`        | `(state, action) => state`   | User defined reducer that receives every event triggered within the annotator. See demo site for example. |                    |
+| `userReducer`        | `(state, action) => state`   | Optional reducer to hook into event handling. It runs after the built-in reducers and receives every event triggered within the annotator (e.g. `SELECT_CLASSIFICATION`), so it can override or extend the default behavior. |                    |
 
 ## Developers
 

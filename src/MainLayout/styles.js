@@ -1,5 +1,3 @@
-import { grey } from "@mui/material/colors"
-
 export default {
   container: {
     display: "flex",
@@ -9,14 +7,10 @@ export default {
     maxHeight: "100vh",
     backgroundColor: "#fff",
     overflow: "hidden",
+    outline: "none",
     userSelect: "none",
     WebkitUserSelect: "none",
     MozUserSelect: "none",
     msUserSelect: "none",
-  },
-  headerTitle: {
-    fontWeight: "bold",
-    color: grey[700],
-    paddingLeft: 16,
   },
 }

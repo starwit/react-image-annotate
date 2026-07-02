@@ -1,6 +1,6 @@
 // @flow
 
-import {useEffect, useReducer} from "react"
+import {useImperativeHandle, useReducer} from "react"
 import {produce} from "immer"
 
 import MainLayout from "../MainLayout"
@@ -9,31 +9,21 @@ import combineReducers from "./reducers/combine-reducers.js"
 import generalReducer from "./reducers/general-reducer.js"
 import historyHandler from "./reducers/history-handler.js"
 import imageReducer from "./reducers/image-reducer.js"
-import useEventCallback from "use-event-callback"
 import PropTypes from "prop-types"
 import noopReducer from "./reducers/noop-reducer.js"
 import {useTranslation} from "react-i18next"
 
 
 export const Annotator = ({
-  images,
-  selectedImage = images && images.length > 0 ? 0 : undefined,
+  image,
   selectedTool = "select",
-  regionClsList = [],
-  regionColorList = [],
+  classifications = [],
   preselectCls = null,
-  onExit,
-  hideHeader,
-  hideHeaderText,
-  hideSave,
   enabledRegionProps = ["class", "name"],
   movementLocked = false,
-  userReducer
+  userReducer,
+  ref
 }) => {
-  if (typeof selectedImage === "string") {
-    selectedImage = (images || []).findIndex((img) => img.src === selectedImage)
-    if (selectedImage === -1) selectedImage = undefined
-  }
   const {t} = useTranslation();
   const [state, dispatchToReducer] = useReducer(
     historyHandler(
@@ -46,45 +36,30 @@ export const Annotator = ({
     produce({
       selectedTool,
       mode: null,
-      regionClsList,
-      regionColorList,
+      classifications,
       preselectCls,
       history: [],
       enabledRegionProps,
-      selectedImage,
-      images,
+      image,
     }, _ => _)
   )
 
-  const dispatch = useEventCallback((action) => {
-    if (action.type === "HEADER_BUTTON_CLICKED") {
-      if (["Exit", "Done", "Save", "Complete"].includes(action.buttonName)) {
-        return onExit(produce(state, s => {delete s.history}))
-      }
-    }
-    dispatchToReducer(action)
-  })
+  useImperativeHandle(
+    ref,
+    () => ({
+      getRegions: () => state.image?.regions ?? [],
+    }),
+    [state]
+  )
 
-  useEffect(() => {
-    if (selectedImage === undefined) return
-    dispatchToReducer({
-      type: "SELECT_IMAGE",
-      imageIndex: selectedImage,
-      image: state.images[selectedImage]
-    })
-  }, [selectedImage, state.images])
-
-  if (!images)
+  if (!image)
     return t("error.image")
 
   return (
     <SettingsProvider>
       <MainLayout
         state={state}
-        dispatch={dispatch}
-        hideHeader={hideHeader}
-        hideHeaderText={hideHeaderText}
-        hideSave={hideSave}
+        dispatch={dispatchToReducer}
         enabledRegionProps={enabledRegionProps}
         movementLocked={movementLocked}
       />
@@ -93,19 +68,21 @@ export const Annotator = ({
 }
 
 Annotator.propTypes = {
-  images: PropTypes.array,
-  selectedImage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  image: PropTypes.object,
   selectedTool: PropTypes.string,
-  regionClsList: PropTypes.arrayOf(PropTypes.string),
-  regionColorList: PropTypes.arrayOf(PropTypes.string),
+  classifications: PropTypes.arrayOf(
+    PropTypes.shape({
+      cls: PropTypes.string.isRequired,
+      displayName: PropTypes.string,
+      color: PropTypes.string,
+      tool: PropTypes.string,
+    })
+  ),
   preselectCls: PropTypes.string,
-  onExit: PropTypes.func.isRequired,
-  hideHeader: PropTypes.bool,
-  hideHeaderText: PropTypes.bool,
-  hideSave: PropTypes.bool,
   enabledRegionProps: PropTypes.arrayOf(PropTypes.string),
   movementLocked: PropTypes.bool,
-  userReducer: PropTypes.func
+  userReducer: PropTypes.func,
+  ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
 }
 
 export default Annotator
