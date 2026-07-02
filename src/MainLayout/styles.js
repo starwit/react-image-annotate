@@ -7,6 +7,7 @@ export default {
     maxHeight: "100vh",
     backgroundColor: "#fff",
     overflow: "hidden",
+    outline: "none",
     userSelect: "none",
     WebkitUserSelect: "none",
     MozUserSelect: "none",
