@@ -78,7 +78,14 @@ export default (state, action) => {
       return state
     }
     case "SELECT_CLASSIFICATION": {
-      return produce(state, s => {s.selectedCls = action.cls})
+      const classification = (state.classifications || []).find(
+        (c) => c.cls === action.cls
+      )
+      return produce(state, s => {
+        s.selectedCls = action.cls
+        // A classification may declare the tool to activate on selection.
+        if (classification?.tool) s.selectedTool = classification.tool
+      })
     }
     case "CHANGE_REGION": {
       const regionIndex = getRegionIndex(action.region)

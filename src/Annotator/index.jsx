@@ -75,6 +75,7 @@ Annotator.propTypes = {
       cls: PropTypes.string.isRequired,
       displayName: PropTypes.string,
       color: PropTypes.string,
+      tool: PropTypes.string,
     })
   ),
   preselectCls: PropTypes.string,

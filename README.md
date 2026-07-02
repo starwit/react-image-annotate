@@ -28,8 +28,8 @@ const App = () => {
       <ReactImageAnnotate
         ref={annotatorRef}
         classifications={[
-          {cls: "alpha", displayName: "Alpha", color: "#00da86"},
-          {cls: "beta", displayName: "Beta", color: "#1e87e9"},
+          {cls: "alpha", displayName: "Alpha", color: "#00da86", tool: "create-line"},
+          {cls: "beta", displayName: "Beta", color: "#1e87e9", tool: "create-polygon"},
           {cls: "charlie", displayName: "Charlie"},
           {cls: "delta", displayName: "Delta"},
         ]}
@@ -74,12 +74,12 @@ All of the following properties can be defined on the Annotator...
 | -------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------ |
 | `image`              | `Image` \*                   | The image to annotate.                                                                                     |                    |
 | `selectedTool`       | `string`                     | Initially selected tool. e.g. "select", "pan", "zoom", "create-polygon", "create-line".                   | `"select"`         |
-| `classifications`    | `Array<Classification>`      | Allowed classifications (mutually exclusive) for regions. Each is `{ cls, displayName?, color? }`, where `cls` is the technical identifier (source of truth, e.g. for DB references), `displayName` is the human-readable label shown in the UI (falls back to `cls`), and `color` is optional (default palette is used otherwise). |          |
+| `classifications`    | `Array<Classification>`      | Allowed classifications (mutually exclusive) for regions. Each is `{ cls, displayName?, color?, tool? }`, where `cls` is the technical identifier (source of truth, e.g. for DB references), `displayName` is the human-readable label shown in the UI (falls back to `cls`), `color` is optional (default palette is used otherwise), and `tool` sets the tool (e.g. `"create-line"`, `"create-polygon"`) to activate when the classification is selected. |          |
 | `preselectCls`       | `string`                     | `cls` that should be preselected when creating a new region.                                              |                    |
 | `ref`                | `Ref`                        | Ref exposing `getRegions()`, which returns the current array of regions. See "Retrieving the annotation state" above. |          |
 | `enabledRegionProps` | `Array<string>`              | Which properties to show in the region edit popup ("name", "line-direction").                             | `["class", "name"]` |
 | `movementLocked`     | `boolean`                    | Reset zoom/pan to the default view and lock canvas movement (panning/zooming).                            | `false`            |
-| `userReducer`        | `(state, action) => state`   | User defined reducer that receives every event triggered within the annotator. See demo site for example. |                    |
+| `userReducer`        | `(state, action) => state`   | Optional reducer to hook into event handling. It runs after the built-in reducers and receives every event triggered within the annotator (e.g. `SELECT_CLASSIFICATION`), so it can override or extend the default behavior. |                    |
 
 ## Developers
 
