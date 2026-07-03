@@ -59,6 +59,47 @@ const regions = annotatorRef.current.getRegions();
 // regions: Array<Region> — the polygons/lines drawn on the image
 ```
 
+### Overlaying custom content on the image
+
+Use `renderImageOverlay` to draw your own content (a heatmap, a mask, a
+[deck.gl](https://deck.gl) instance) on top of the image. The annotator renders it in a
+box that exactly covers the image and stays aligned through pan, zoom, and resize. The
+box is `pointerEvents: "none"` (so annotation input still works) and sits below the
+region annotations; fill it with `width: 100%; height: 100%`.
+
+Pass a React node for simple CSS-laid-out overlays:
+
+```jsx
+<Annotator image={image} renderImageOverlay={<MyOverlay />} />
+```
+
+Or a function for overlays that need the image geometry — e.g. deck.gl, which draws in
+its own coordinate space and needs the image's intrinsic pixel size. It receives
+`{ naturalWidth, naturalHeight, width, height, imagePosition, mat }`, where
+`naturalWidth`/`naturalHeight` are the image's constant pixel dimensions and
+`width`/`height` are its current on-screen size:
+
+```jsx
+<Annotator
+  image={image}
+  renderImageOverlay={({ naturalWidth, naturalHeight, width }) => (
+    <DeckGL
+      style={{ width: "100%", height: "100%" }}
+      views={new OrthographicView()}
+      controller={false} // the annotator owns pan/zoom
+      viewState={{
+        target: [naturalWidth / 2, naturalHeight / 2, 0], // center, in image pixels
+        zoom: Math.log2(width / naturalWidth),            // fit image pixels into the box
+      }}
+      layers={[/* layers in image-pixel coordinates */]}
+    />
+  )}
+/>
+```
+
+Expressing data in image-pixel coordinates (top-left origin, `naturalWidth × naturalHeight`)
+keeps it glued to the image at any zoom.
+
 To get the proper fonts, make sure to import the Inter UI or Roboto font, the
 following line added to a css file should suffice.
 
@@ -80,6 +121,7 @@ All of the following properties can be defined on the Annotator...
 | `enabledRegionProps` | `Array<string>`              | Which properties to show in the region edit popup ("name", "line-direction").                             | `["class", "name"]` |
 | `movementLocked`     | `boolean`                    | Reset zoom/pan to the default view and lock canvas movement (panning/zooming).                            | `false`            |
 | `userReducer`        | `(state, action) => state`   | Optional reducer to hook into event handling. It runs after the built-in reducers and receives every event triggered within the annotator (e.g. `SELECT_CLASSIFICATION`), so it can override or extend the default behavior. |                    |
+| `renderImageOverlay` | `ReactNode \| (args) => ReactNode` | Custom content rendered on top of the image, kept aligned to it through pan/zoom. See "Overlaying custom content on the image" above. |                    |
 
 ## Developers
 

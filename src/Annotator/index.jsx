@@ -84,7 +84,7 @@ Annotator.propTypes = {
   enabledRegionProps: PropTypes.arrayOf(PropTypes.string),
   movementLocked: PropTypes.bool,
   userReducer: PropTypes.func,
-  renderImageOverlay: PropTypes.func,
+  renderImageOverlay: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
 }
 

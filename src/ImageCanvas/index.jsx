@@ -270,14 +270,18 @@ export const ImageCanvas = ({
                   height: imagePosition.bottomRight.y - imagePosition.topLeft.y
                 }}
               >
-                {renderImageOverlay({
-                  imagePosition,
-                  naturalWidth: imageDimensions.naturalWidth,
-                  naturalHeight: imageDimensions.naturalHeight,
-                  width: imagePosition.bottomRight.x - imagePosition.topLeft.x,
-                  height: imagePosition.bottomRight.y - imagePosition.topLeft.y,
-                  mat
-                })}
+                {typeof renderImageOverlay === "function"
+                  ? renderImageOverlay({
+                    imagePosition,
+                    naturalWidth: imageDimensions.naturalWidth,
+                    naturalHeight: imageDimensions.naturalHeight,
+                    width:
+                      imagePosition.bottomRight.x - imagePosition.topLeft.x,
+                    height:
+                      imagePosition.bottomRight.y - imagePosition.topLeft.y,
+                    mat
+                  })
+                  : renderImageOverlay}
               </div>
             )}
           </>
@@ -312,7 +316,7 @@ ImageCanvas.propTypes = {
   onAddPolygonPoint: PropTypes.func.isRequired,
   onSelectRegion: PropTypes.func.isRequired,
   onImageLoadedDispatch: PropTypes.func.isRequired,
-  renderImageOverlay: PropTypes.func,
+  renderImageOverlay: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
 }
 
 export default ImageCanvas
