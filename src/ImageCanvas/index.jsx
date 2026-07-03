@@ -40,7 +40,8 @@ export const ImageCanvas = ({
   onAddPolygonPoint,
   onSelectRegion,
   onDeleteRegion,
-  enabledRegionProps
+  enabledRegionProps,
+  renderImageOverlay
 }) => {
   const canvasEl = useRef(null)
   const layoutParams = useRef({})
@@ -257,6 +258,32 @@ export const ImageCanvas = ({
               imageSrc={imageSrc}
               useCrossOrigin={false}
             />
+            {imageLoaded && iw && renderImageOverlay && (
+              <div
+                style={{
+                  position: "absolute",
+                  zIndex: 1,
+                  pointerEvents: "none",
+                  left: imagePosition.topLeft.x,
+                  top: imagePosition.topLeft.y,
+                  width: imagePosition.bottomRight.x - imagePosition.topLeft.x,
+                  height: imagePosition.bottomRight.y - imagePosition.topLeft.y
+                }}
+              >
+                {typeof renderImageOverlay === "function"
+                  ? renderImageOverlay({
+                    imagePosition,
+                    naturalWidth: imageDimensions.naturalWidth,
+                    naturalHeight: imageDimensions.naturalHeight,
+                    width:
+                      imagePosition.bottomRight.x - imagePosition.topLeft.x,
+                    height:
+                      imagePosition.bottomRight.y - imagePosition.topLeft.y,
+                    mat
+                  })
+                  : renderImageOverlay}
+              </div>
+            )}
           </>
         </PreventScrollToParents>
         <div style={styles.zoomIndicator}>
@@ -289,6 +316,7 @@ ImageCanvas.propTypes = {
   onAddPolygonPoint: PropTypes.func.isRequired,
   onSelectRegion: PropTypes.func.isRequired,
   onImageLoadedDispatch: PropTypes.func.isRequired,
+  renderImageOverlay: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
 }
 
 export default ImageCanvas

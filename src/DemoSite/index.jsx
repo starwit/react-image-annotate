@@ -3,6 +3,7 @@ import Annotator from "../Annotator"
 
 export default () => {
   const [movementLocked, setMovementLocked] = useState(false)
+  const [showOverlay, setShowOverlay] = useState(false)
   const annotatorRef = useRef(null)
 
   return (
@@ -22,6 +23,9 @@ export default () => {
         <button onClick={() => console.log(annotatorRef.current?.getRegions())}>
           Log state
         </button>
+        <button onClick={() => setShowOverlay((shown) => !shown)}>
+          {showOverlay ? "Hide overlay" : "Show overlay"}
+        </button>
       </div>
       <div style={{flex: 1, minHeight: 0, position: "relative"}}>
         <Annotator
@@ -36,6 +40,35 @@ export default () => {
           enabledRegionProps={["name", "line-direction"]}
           ref={annotatorRef}
           movementLocked={movementLocked}
+          renderImageOverlay={
+            showOverlay
+              ? ({naturalWidth, naturalHeight, width, height}) => (
+                <div
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    boxSizing: "border-box",
+                    border: "2px solid #ff00ff",
+                    backgroundColor: "rgba(255, 0, 255, 0.15)",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "inline-block",
+                      margin: 4,
+                      padding: "2px 6px",
+                      font: "12px monospace",
+                      color: "#fff",
+                      backgroundColor: "rgba(255, 0, 255, 0.75)",
+                    }}
+                  >
+                    natural {naturalWidth}×{naturalHeight}px / on screen{" "}
+                    {Math.round(width)}×{Math.round(height)}px
+                  </span>
+                </div>
+              )
+              : undefined
+          }
         />
       </div>
     </div>

@@ -30,6 +30,7 @@ export const MainLayout = ({
   dispatch,
   enabledRegionProps,
   movementLocked = false,
+  renderImageOverlay,
 }) => {
   const settings = useSettings()
 
@@ -110,6 +111,7 @@ export const MainLayout = ({
       onSelectRegion={action("SELECT_REGION", "region")}
       onImageLoadedDispatch={action("IMAGE_LOADED", "metadata")}
       enabledRegionProps={enabledRegionProps}
+      renderImageOverlay={renderImageOverlay}
     />
   )
   return (
