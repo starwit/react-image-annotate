@@ -22,6 +22,7 @@ export const Annotator = ({
   enabledRegionProps = ["class", "name"],
   movementLocked = false,
   userReducer,
+  renderImageOverlay,
   ref
 }) => {
   const {t} = useTranslation();
@@ -62,6 +63,7 @@ export const Annotator = ({
         dispatch={dispatchToReducer}
         enabledRegionProps={enabledRegionProps}
         movementLocked={movementLocked}
+        renderImageOverlay={renderImageOverlay}
       />
     </SettingsProvider>
   )
@@ -82,6 +84,7 @@ Annotator.propTypes = {
   enabledRegionProps: PropTypes.arrayOf(PropTypes.string),
   movementLocked: PropTypes.bool,
   userReducer: PropTypes.func,
+  renderImageOverlay: PropTypes.func,
   ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
 }
 
