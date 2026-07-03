@@ -1,5 +1,6 @@
 import {useRef, useState} from "react"
 import Annotator from "../Annotator"
+import styles from "./styles"
 
 export default () => {
   const [movementLocked, setMovementLocked] = useState(false)
@@ -7,16 +8,8 @@ export default () => {
   const annotatorRef = useRef(null)
 
   return (
-    <div style={{display: "flex", flexDirection: "column", height: "100vh"}}>
-      <div
-        style={{
-          display: "flex",
-          gap: 8,
-          padding: 8,
-          alignItems: "center",
-          borderBottom: "1px solid #ccc",
-        }}
-      >
+    <div style={styles.container}>
+      <div style={styles.toolbar}>
         <button onClick={() => setMovementLocked((locked) => !locked)}>
           {movementLocked ? "Unlock movement" : "Lock movement"}
         </button>
@@ -27,7 +20,7 @@ export default () => {
           {showOverlay ? "Hide overlay" : "Show overlay"}
         </button>
       </div>
-      <div style={{flex: 1, minHeight: 0, position: "relative"}}>
+      <div style={styles.annotatorContainer}>
         <Annotator
           classifications={[
             {cls: "linecrossing", displayName: "Line Crossing", color: "#00da86", tool: "create-line"},
@@ -43,25 +36,8 @@ export default () => {
           renderImageOverlay={
             showOverlay
               ? ({naturalWidth, naturalHeight, width, height}) => (
-                <div
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    boxSizing: "border-box",
-                    border: "2px solid #ff00ff",
-                    backgroundColor: "rgba(255, 0, 255, 0.15)",
-                  }}
-                >
-                  <span
-                    style={{
-                      display: "inline-block",
-                      margin: 4,
-                      padding: "2px 6px",
-                      font: "12px monospace",
-                      color: "#fff",
-                      backgroundColor: "rgba(255, 0, 255, 0.75)",
-                    }}
-                  >
+                <div style={styles.overlay}>
+                  <span style={styles.overlayLabel}>
                     natural {naturalWidth}×{naturalHeight}px / on screen{" "}
                     {Math.round(width)}×{Math.round(height)}px
                   </span>
