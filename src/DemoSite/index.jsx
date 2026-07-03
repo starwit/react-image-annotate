@@ -41,30 +41,33 @@ export default () => {
           ref={annotatorRef}
           movementLocked={movementLocked}
           renderImageOverlay={
-            showOverlay ? (
-              <div
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  boxSizing: "border-box",
-                  border: "2px solid #ff00ff",
-                  backgroundColor: "rgba(255, 0, 255, 0.15)",
-                }}
-              >
-                <span
+            showOverlay
+              ? ({naturalWidth, naturalHeight, width, height}) => (
+                <div
                   style={{
-                    display: "inline-block",
-                    margin: 4,
-                    padding: "2px 6px",
-                    font: "12px monospace",
-                    color: "#fff",
-                    backgroundColor: "rgba(255, 0, 255, 0.75)",
+                    width: "100%",
+                    height: "100%",
+                    boxSizing: "border-box",
+                    border: "2px solid #ff00ff",
+                    backgroundColor: "rgba(255, 0, 255, 0.15)",
                   }}
                 >
-                  overlay
-                </span>
-              </div>
-            ) : undefined
+                  <span
+                    style={{
+                      display: "inline-block",
+                      margin: 4,
+                      padding: "2px 6px",
+                      font: "12px monospace",
+                      color: "#fff",
+                      backgroundColor: "rgba(255, 0, 255, 0.75)",
+                    }}
+                  >
+                    natural {naturalWidth}×{naturalHeight}px / on screen{" "}
+                    {Math.round(width)}×{Math.round(height)}px
+                  </span>
+                </div>
+              )
+              : undefined
           }
         />
       </div>
