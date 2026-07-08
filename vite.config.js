@@ -12,12 +12,8 @@ export default defineConfig({
     }),
   ],
   base: './',
-  optimizeDeps: {
-    esbuildOptions: {
-      define: {
-        global: 'globalThis',
-      },
-    },
+  define: {
+    global: 'globalThis',
   },
   build: {
     lib: {
